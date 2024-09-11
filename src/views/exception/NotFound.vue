@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Result from 'components/Result.vue'
+import Button from 'components/Button.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 

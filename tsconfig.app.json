@@ -8,7 +8,10 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "images/*": ["./src/assets/images"],
+      "less/*": ["./src/assets/less"],
+      "components/*": ["./src/components"]
     }
   }
 }
