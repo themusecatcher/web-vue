@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 使用 storage
-// import storage from 'utils/storage'
-// storage.set('token', 'tokennnnn')
+import storage from 'utils/storage'
+storage.set('token', 'tokennnnn')
 </script>
 
 <template>

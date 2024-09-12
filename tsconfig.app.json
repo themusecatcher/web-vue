@@ -6,20 +6,31 @@
     "src/**/*.vue",
     "types/**/*.d.ts",
     "types/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "components.d.ts",
+    "vite.config.ts"
   ],
-  "exclude": ["src/**/__tests__/*"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "images/*": ["./src/assets/images"],
-      "less/*": ["./src/assets/less"],
-      "components/*": ["./src/components"],
-      "utils/*": ["./src/utils"],
-      "enums/*": ["./src/enums"]
+      "@/*": ["src/*"],
+      "#/*": ["types/*"],
+      "apis/*": ["src/apis/*"],
+      "images/*": ["src/assets/images/*"],
+      "less/*": ["src/assets/less/*"],
+      "components/*": ["src/components/*"],
+      "enums/*": ["src/enums/*"],
+      "hooks/*": ["src/hooks/*"],
+      "http/*": ["src/http/*"],
+      "utils/*": ["src/utils/*"]
     }
   }
 }

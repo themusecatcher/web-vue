@@ -42,6 +42,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '#': fileURLToPath(new URL('./types', import.meta.url)),
         'apis': fileURLToPath(new URL('./src/apis', import.meta.url)),
         'images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
         'less': fileURLToPath(new URL('./src/assets/less', import.meta.url)),

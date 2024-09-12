@@ -1,4 +1,4 @@
-import { http } from '@/utils/http/axios'
+import { http } from 'http/index'
 import { ContentTypeEnum } from '@/enums/httpEnum'
 export function postForm(url: string, params: object) {
   return http.request({
