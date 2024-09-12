@@ -17,12 +17,7 @@ const routerViewRef = ref()
 <template>
   <a-row style="width: 100%">
     <a-col :xs="5" :xl="4" style="position: relative">
-      <a-menu
-        class="m-menus"
-        v-model:selectedKeys="current"
-        mode="inline"
-        @click="onClick"
-      >
+      <a-menu class="m-menus" v-model:selectedKeys="current" mode="inline" @click="onClick">
         <a-menu-item v-for="menu in menus" :key="menu.name" :title="menu.meta.title">
           <router-link :to="menu.path">{{ menu.meta.title }} {{ menu.name }}</router-link>
         </a-menu-item>

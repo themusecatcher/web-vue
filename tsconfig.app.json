@@ -1,6 +1,12 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": [
+    "src/**/*",
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+  ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
@@ -11,7 +17,9 @@
       "@/*": ["./src/*"],
       "images/*": ["./src/assets/images"],
       "less/*": ["./src/assets/less"],
-      "components/*": ["./src/components"]
+      "components/*": ["./src/components"],
+      "utils/*": ["./src/utils"],
+      "enums/*": ["./src/enums"]
     }
   }
 }

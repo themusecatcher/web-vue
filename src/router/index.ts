@@ -1,31 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import { setDocumentTitle, webTitle } from '@/utils'
 import GlobalLayout from '@/layouts/GlobalLayout.vue'
 
 export const routes = [
   {
     path: '/',
     name: 'home',
+    meta: { title: '首页' },
     component: HomeView
   },
-  {
-    path: '/about',
-    name: 'About',
-    component: GlobalLayout,
-    redirect: '/about/us',
-    children: [
-      {
-        path: '/about/us',
-        name: 'AboutUs',
-        meta: { title: '关于我们' },
-        // route level code-splitting
-        // this generates a separate chunk (AboutView.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('@/views/AboutView.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/about',
+  //   name: 'About',
+  //   component: GlobalLayout,
+  //   redirect: '/about/us',
+  //   children: [
+  //     {
+  //       path: '/about/us',
+  //       name: 'AboutUs',
+  //       meta: { title: '关于我们' },
+  //       // route level code-splitting
+  //       // this generates a separate chunk (AboutView.[hash].js) for this route
+  //       // which is lazy-loaded when the route is visited.
+  //       component: () => import('@/views/AboutView.vue')
+  //     }
+  //   ]
+  // },
   {
     path: '/:pathMatch(.*)*',
     // 如果你省略了最后的 `*`，在解析或跳转时，参数中的 `/` 字符将被编码
@@ -46,8 +46,8 @@ const router = createRouter({
 })
 // 注册全局前置守卫
 router.beforeEach((to, from) => {
-  const domTitle = to.meta.title + ' ' + String(to.name) + ' - ' + webTitle
-  setDocumentTitle(domTitle)
+  const domTitle = to.meta.title
+  document.title = domTitle as string
 })
 
 export default router

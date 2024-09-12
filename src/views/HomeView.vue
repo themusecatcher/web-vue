@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+// 使用 storage
+// import storage from 'utils/storage'
+// storage.set('token', 'tokennnnn')
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <main> 你好 </main>
 </template>

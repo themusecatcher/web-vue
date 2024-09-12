@@ -17,4 +17,4 @@ git push
 
 # git tag -a $version -m $version
 # git push origin $version
-# curl -X POST 'http://ci.jinhui365.cn/view/web/job/web_app_tourism/build?token=mAZgSBhHr9wT9yX9Mxfh'
+# curl -X POST 'http://ci.jinhui365.cn/view/web/job/web_app_vue/build?token=abcde'
