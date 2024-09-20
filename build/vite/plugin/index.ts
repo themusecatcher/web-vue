@@ -1,0 +1,44 @@
+import type { Plugin, PluginOption } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { configHtmlPlugin } from './html'
+import { configCompressPlugin } from './compress'
+
+export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
+  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE } = viteEnv
+
+  const vitePlugins: (Plugin | Plugin[] | PluginOption[])[] = [
+    vue(),
+    AutoImport({
+      dts: 'src/auto-imports.d.ts', // 自动引入生成的配置文件
+      imports: ['vue', 'vue-router', 'pinia'],
+
+      eslintrc: {
+        enabled: true, // 默认false, true 启用。生成一次就可以，为避免每次工程启动都生成，一旦生成配置文件之后，可以把 enable 关掉
+        filepath: './.eslintrc-auto-import.json', // 生成json文件,可以不配置该项，默认就是将生成在根目录
+        globalsPropValue: true
+      }
+    }),
+    Components({
+      // 自动引入项目自定义组件和组件库的组件
+      dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
+      resolvers: [
+        AntDesignVueResolver({
+          importStyle: false // css in js
+        })
+      ]
+    })
+  ]
+
+  // vite-plugin-html
+  vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
+
+  if (isBuild) {
+    // rollup-plugin-gzip
+    vitePlugins.push(configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE))
+  }
+
+  return vitePlugins
+}

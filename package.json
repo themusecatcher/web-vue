@@ -8,8 +8,8 @@
     "dev": "vite",
     "push": "sh scripts/push.sh",
     "tag": "sh scripts/tag.sh",
-    "build": "run-s format clean build:tag",
-    "format": "prettier --write src/",
+    "build": "run-s format clean build-only",
+    "format": "prettier --write src/ build/",
     "clean": "rimraf ./dist",
     "build:tag": "run-p type-check build-only",
     "type-check": "vue-tsc --build --force",
@@ -46,6 +46,8 @@
     "unplugin-auto-import": "^0.18.2",
     "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.3",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-html": "^3.2.2",
     "vue-tsc": "^2.1.6"
   }
 }
