@@ -1,3 +1,3 @@
 <template>
-  <RouterView class="m-app" />
+  <RouterView />
 </template>
