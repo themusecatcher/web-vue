@@ -1,29 +1,35 @@
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, computed } from 'vue'
+import type { Slot } from 'vue'
+import { useSlotsExist } from '../utils'
 interface Props {
-  type?: 'default' | 'reverse' | 'primary' | 'danger' | 'dashed' | 'text' | 'link' // 按钮类型
-  size?: 'small' | 'middle' | 'large' // 按钮尺寸
+  type?: 'default' | 'reverse' | 'primary' | 'danger' | 'dashed' | 'text' | 'link' // 设置按钮类型
+  shape?: 'default' | 'circle' | 'round' // 设置按钮形状
+  icon?: Slot // 设置按钮图标
+  size?: 'small' | 'middle' | 'large' // 设置按钮尺寸
   ghost?: boolean // 按钮背景是否透明，仅当 type: 'primary' | 'danger' 时生效
+  buttonClass?: string // 设置按钮类名
   rippleColor?: string // 点击时的波纹颜色，一般不需要设置，默认会根据 type 自动匹配，主要用于自定义样式时且 type: 'default'
   href?: string // 点击跳转的地址，与 a 链接的 href 属性一致
   target?: '_self' | '_blank' // 如何打开目标链接，相当于 a 链接的 target 属性，href 存在时生效
   disabled?: boolean // 是否禁用
   loading?: boolean // 是否加载中
   loadingType?: 'static' | 'dynamic' // 加载指示符类型
-  loadingColor?: string // 加载指示符颜色，一般不需要设置，默认会根据 type 自动匹配，主要用于自定义样式时且 type: 'default'
   block?: boolean // 是否将按钮宽度调整为其父宽度
 }
 withDefaults(defineProps<Props>(), {
   type: 'default',
+  shape: 'default',
+  icon: undefined,
   size: 'middle',
   ghost: false,
   rippleColor: undefined,
+  buttonClass: undefined,
   href: undefined,
   target: '_self',
   disabled: false,
   loading: false,
   loadingType: 'dynamic',
-  loadingColor: 'rgba(0, 0, 0, 0.88)',
   block: false
 })
 const presetRippleColors = {
@@ -37,6 +43,10 @@ const presetRippleColors = {
 }
 const wave = ref(false)
 const emit = defineEmits(['click'])
+const slotsExist = useSlotsExist(['icon', 'default'])
+const showIconOnly = computed(() => {
+  return slotsExist.icon && !slotsExist.default
+})
 function onClick(e: Event) {
   if (wave.value) {
     wave.value = false
@@ -63,32 +73,47 @@ function onWaveEnd() {
       `btn-${type} btn-${size}`,
       {
         [`loading-${size}`]: !href && loading,
-        'btn-loading': !href && loading,
+        'btn-icon-only': showIconOnly,
+        'btn-circle': shape === 'circle',
+        'btn-round': shape === 'round',
+        'btn-loading-blur': !href && loading,
         'btn-ghost': ghost,
         'btn-block': block,
         'btn-disabled': disabled
-      }
+      },
+      buttonClass
     ]"
-    :style="`--ripple-color: ${rippleColor || presetRippleColors[type]}; --loading-color: ${loadingColor};`"
+    :style="`--ripple-color: ${rippleColor || presetRippleColors[type]};`"
     :disabled="disabled"
     :href="href ? href : 'javascript:void(0);'"
     :target="href ? target : '_self'"
     @click="onClick"
     @keydown.enter.prevent="onKeyboard"
-    v-bind="$attrs"
   >
-    <div v-if="!href && loadingType === 'static'" class="m-static-circle">
-      <span class="spin-circle"></span>
+    <div v-if="loading || !slotsExist.icon" class="btn-loading">
+      <div v-if="!href && loadingType === 'static'" class="m-ring-circle">
+        <svg class="circle" width="1em" height="1em" fill="currentColor" viewBox="0 0 100 100">
+          <path
+            d="M 50,50 m 0,-45 a 45,45 0 1 1 0,90 a 45,45 0 1 1 0,-90"
+            stroke-linecap="round"
+            class="path"
+            fill-opacity="0"
+          ></path>
+        </svg>
+      </div>
+      <div v-if="!href && loadingType === 'dynamic'" class="m-dynamic-circle">
+        <svg class="circle" viewBox="0 0 50 50" width="1em" height="1em" fill="currentColor">
+          <circle class="path" cx="25" cy="25" r="20" fill="none"></circle>
+        </svg>
+      </div>
     </div>
-    <div v-if="!href && loadingType === 'dynamic'" class="m-dynamic-circle">
-      <svg class="circular" viewBox="0 0 50 50" fill="currentColor">
-        <circle class="path" cx="25" cy="25" r="20" fill="none"></circle>
-      </svg>
-    </div>
-    <span class="u-text">
+    <span v-if="!loading && slotsExist.icon" class="btn-icon">
+      <slot name="icon"></slot>
+    </span>
+    <span v-if="slotsExist.default" class="btn-content">
       <slot></slot>
     </span>
-    <div v-if="!disabled" class="m-button-wave" :class="{ 'wave-active': wave }" @animationend="onWaveEnd"></div>
+    <div v-if="!disabled" class="button-wave" :class="{ 'wave-active': wave }" @animationend="onWaveEnd"></div>
   </a>
 </template>
 <style lang="less" scoped>
@@ -105,88 +130,85 @@ function onWaveEnd() {
   white-space: nowrap;
   text-align: center;
   background-color: transparent;
-  border-width: 1px;
-  border-style: solid;
-  border-color: transparent;
+  border: 1px solid transparent;
   outline: none;
   user-select: none;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-  .m-static-circle {
+  .btn-loading {
     display: inline-flex;
-    justify-content: start;
+    align-items: center;
+    overflow: hidden;
     opacity: 0;
     width: 0;
     transition:
-      padding-right 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+      margin-right 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
       width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
       opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    .spin-circle {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border-width: 1px;
-      border-style: solid;
-      border-color: transparent;
-      border-top-color: inherit;
-      animation: loading-circle 1s linear infinite;
-      -webkit-animation: loading-circle 1s linear infinite;
+    .m-ring-circle,
+    .m-dynamic-circle {
+      display: inline-flex;
+      justify-content: start;
+      .circle {
+        fill: currentColor;
+      }
     }
-    @keyframes loading-circle {
+    .m-ring-circle {
+      .circle {
+        animation: spin-circle 0.8s linear infinite;
+        -webkit-animation: spin-circle 0.8s linear infinite;
+        .path {
+          stroke-width: 10;
+          stroke-dashoffset: 0;
+          stroke-dasharray: 84.82px, 282.74px;
+        }
+      }
+    }
+    .m-dynamic-circle {
+      .circle {
+        animation: spin-circle 2s linear infinite;
+        -webkit-animation: spin-circle 2s linear infinite;
+        .path {
+          stroke: currentColor;
+          stroke-width: 5;
+          stroke-dasharray: 90, 150;
+          stroke-dashoffset: 0;
+          stroke-linecap: round;
+          animation: loading-dash 1.5s ease-in-out infinite;
+          -webkit-animation: loading-dash 1.5s ease-in-out infinite;
+          @keyframes loading-dash {
+            0% {
+              stroke-dasharray: 1, 200;
+              stroke-dashoffset: 0;
+            }
+            50% {
+              stroke-dasharray: 90, 150;
+              stroke-dashoffset: -40px;
+            }
+            100% {
+              stroke-dasharray: 90, 150;
+              stroke-dashoffset: -124px;
+            }
+          }
+        }
+      }
+    }
+    @keyframes spin-circle {
       100% {
         transform: rotate(360deg);
       }
     }
   }
-  .m-dynamic-circle {
-    display: inline-flex;
-    justify-content: start;
-    opacity: 0;
-    width: 0;
-    transition:
-      padding-right 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
-      width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
-      opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    .circular {
-      width: 14px;
-      height: 14px;
-      animation: loading-rotate 2s linear infinite;
-      -webkit-animation: loading-rotate 2s linear infinite;
-      @keyframes loading-rotate {
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      .path {
-        stroke-dasharray: 90, 150;
-        stroke-dashoffset: 0;
-        stroke-width: 5;
-        stroke-linecap: round;
-        animation: loading-dash 1.5s ease-in-out infinite;
-        -webkit-animation: loading-dash 1.5s ease-in-out infinite;
-        @keyframes loading-dash {
-          0% {
-            stroke-dasharray: 1, 200;
-            stroke-dashoffset: 0;
-          }
-          50% {
-            stroke-dasharray: 90, 150;
-            stroke-dashoffset: -40px;
-          }
-          100% {
-            stroke-dasharray: 90, 150;
-            stroke-dashoffset: -120px;
-          }
-        }
-      }
-    }
-  }
-  .u-text {
+  .btn-icon,
+  .btn-content {
     display: inline-flex;
     align-items: center;
+    :deep(svg) {
+      fill: currentColor;
+    }
   }
-  .m-button-wave {
+  .button-wave {
     position: absolute;
     pointer-events: none;
     top: 0;
@@ -218,34 +240,36 @@ function onWaveEnd() {
       }
     }
   }
+  & > .btn-icon + .btn-content {
+    margin-left: 8px;
+  }
 }
 .btn-default {
   background-color: #ffffff;
   border-color: #d9d9d9;
   &:hover {
-    color: #4096ff;
+    color: #4096ff !important;
     border-color: #4096ff;
   }
   &:active {
-    color: #0958d9;
+    color: #0958d9 !important;
     border-color: #0958d9;
   }
-  .m-static-circle .spin-circle {
-    border-top-color: var(--loading-color);
-  }
-  .m-dynamic-circle .circular .path {
-    stroke: var(--loading-color);
+  .btn-icon {
+    :deep(svg) {
+      transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
   }
 }
 .btn-reverse {
   .btn-default();
   &:hover {
-    color: #fff;
+    color: #fff !important;
     background-color: #4096ff;
     border-color: #4096ff;
   }
   &:active {
-    color: #fff;
+    color: #fff !important;
     background-color: #0958d9;
     border-color: #0958d9;
   }
@@ -253,6 +277,7 @@ function onWaveEnd() {
 .btn-primary {
   color: #fff;
   background-color: @primary;
+  border-color: @primary;
   &:hover {
     color: #fff;
     background-color: #4096ff;
@@ -262,9 +287,6 @@ function onWaveEnd() {
     color: #fff;
     background-color: #0958d9;
     border-color: #0958d9;
-  }
-  .m-dynamic-circle .circular .path {
-    stroke: #fff;
   }
 }
 .btn-danger {
@@ -281,9 +303,6 @@ function onWaveEnd() {
     background-color: #d9363e;
     border-color: #d9363e;
   }
-  .m-dynamic-circle .circular .path {
-    stroke: #fff;
-  }
 }
 .btn-dashed {
   .btn-default();
@@ -291,13 +310,12 @@ function onWaveEnd() {
 }
 .btn-text {
   &:hover {
+    color: rgba(0, 0, 0, 0.88);
     background-color: rgba(0, 0, 0, 0.06);
   }
   &:active {
+    color: rgba(0, 0, 0, 0.88);
     background-color: rgba(0, 0, 0, 0.15);
-  }
-  .m-dynamic-circle .circular .path {
-    stroke: rgba(0, 0, 0, 0.88);
   }
 }
 .btn-link {
@@ -308,14 +326,16 @@ function onWaveEnd() {
   &:active {
     color: #0958d9;
   }
-  .m-dynamic-circle .circular .path {
-    stroke: @primary;
+  .btn-icon {
+    :deep(svg) {
+      transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
   }
 }
 .btn-small {
   font-size: 14px;
   height: 24px;
-  padding: 0px 7px;
+  padding: 0 7px;
   border-radius: 4px;
 }
 .btn-middle {
@@ -329,30 +349,83 @@ function onWaveEnd() {
   height: 40px;
   padding: 6.428571428571429px 15px;
   border-radius: 8px;
-  .m-static-circle .spin-circle,
-  .m-dynamic-circle .circular {
-    width: 16px;
-    height: 16px;
-  }
 }
 .loading-small,
 .loading-middle {
-  .m-static-circle,
-  .m-dynamic-circle {
-    padding-right: 8px;
-    width: 22px;
+  .btn-loading {
+    margin-right: 8px;
+    width: 1em;
     opacity: 1;
   }
 }
 .loading-large {
-  .m-static-circle,
-  .m-dynamic-circle {
-    padding-right: 8px;
-    width: 24px;
+  .btn-loading {
+    margin-right: 8px;
+    width: 1em;
     opacity: 1;
   }
 }
-.btn-loading {
+.btn-icon-only {
+  width: 32px;
+  padding-left: 0;
+  padding-right: 0;
+  .btn-loading,
+  .btn-icon {
+    transform: scale(1.143);
+  }
+  .btn-loading {
+    margin-right: 0;
+  }
+}
+.btn-small.btn-icon-only {
+  width: 24px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.btn-large.btn-icon-only {
+  width: 40px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.btn-circle {
+  min-width: 32px;
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 50%;
+}
+.btn-small.btn-circle {
+  min-width: 24px;
+  padding-left: 0;
+  padding-left: 0;
+  border-radius: 50%;
+}
+.btn-large.btn-circle {
+  min-width: 40px;
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 50%;
+}
+.btn-round {
+  border-radius: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.btn-small.btn-round {
+  border-radius: 24px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.btn-large.btn-round {
+  border-radius: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.btn-icon-only.btn-round,
+.btn-small.btn-icon-only.btn-round,
+.btn-large.btn-icon-only.btn-round {
+  width: auto;
+}
+.btn-loading-blur {
   opacity: 0.65;
   pointer-events: none;
 }
@@ -368,8 +441,10 @@ function onWaveEnd() {
     color: #0958d9;
     border-color: #0958d9;
   }
-  .m-dynamic-circle .circular .path {
-    stroke: @primary;
+  .btn-icon {
+    :deep(svg) {
+      transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
   }
 }
 .btn-danger.btn-ghost:not(.btn-disabled) {
@@ -384,8 +459,10 @@ function onWaveEnd() {
     color: #d9363e;
     border-color: #d9363e;
   }
-  .m-dynamic-circle .circular .path {
-    stroke: @danger;
+  .btn-icon {
+    :deep(svg) {
+      transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
   }
 }
 .btn-block {
@@ -399,16 +476,13 @@ function onWaveEnd() {
   &:hover,
   &:active {
     border-color: #d9d9d9;
-    color: rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.25) !important;
     background-color: rgba(0, 0, 0, 0.04);
   }
-  &.text,
-  &.link {
+  &.btn-text,
+  &.btn-link {
     background-color: transparent;
     border: none;
-  }
-  .m-dynamic-circle .circular .path {
-    stroke: rgba(0, 0, 0, 0.25);
   }
 }
 </style>

@@ -15,12 +15,13 @@ const __APP_INFO__ = {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
-  console.log('command', command)
-  console.log('mode', mode)
+  console.log('command:', command)
+  console.log('mode:', mode)
   const root = process.cwd()
   const env = loadEnv(mode, root)
   const viteEnv = wrapperEnv(env)
   const { VITE_PUBLIC_PATH, VITE_PORT, VITE_PROXY } = viteEnv
+  console.log('VITE_PROXY:', VITE_PROXY)
   const isBuild = command === 'build'
   return {
     base: VITE_PUBLIC_PATH,

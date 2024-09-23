@@ -1,16 +1,16 @@
 import { format } from 'date-fns'
 import { isNumber } from './is'
-const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
+const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 const DATE_FORMAT = 'YYYY-MM-DD '
 // 时间补0
 export function toDouble(iNum: number) {
   return iNum < 10 ? '0' + iNum : iNum
 }
-export function formatToDateTime(date: null, formatStr = DATE_TIME_FORMAT): string {
+export function formatToDateTime(date: Date | number, formatStr = DATE_TIME_FORMAT): string {
   return format(date, formatStr)
 }
 
-export function formatToDate(date: null, formatStr = DATE_FORMAT): string {
+export function formatToDate(date: Date | number, formatStr = DATE_FORMAT): string {
   return format(date, formatStr)
 }
 /*

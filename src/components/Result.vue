@@ -1,33 +1,44 @@
 <script setup lang="ts">
-import { useSlots, computed } from 'vue'
+import { computed } from 'vue'
+import type { Slot } from 'vue'
+import { useSlotsExist } from '../utils'
 interface Props {
+  icon?: Slot // 自定义图标 slot
   status?: 'success' | 'error' | 'info' | 'warning' | '404' | '403' | '500' // 结果的状态，决定图标和颜色
   title?: string // 标题文字 string | slot
   subTitle?: string // 副标题文字 string | slot
+  extra?: string // 额外内容 string | slot
 }
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
+  icon: undefined,
   status: 'info',
   title: undefined,
-  subTitle: undefined
+  subTitle: undefined,
+  extra: undefined
 })
-const slots = useSlots()
-const showContent = computed(() => {
-  const defaultSlots = slots.default?.()
-  if (defaultSlots) {
-    return Boolean(defaultSlots[0].children !== 'v-if' && defaultSlots?.length)
-  }
-  return false
+const slotsExist = useSlotsExist(['title', 'subTitle', 'extra', 'default'])
+const showTitle = computed(() => {
+  return slotsExist.title || props.title
+})
+const showSubTitle = computed(() => {
+  return slotsExist.subTitle || props.subTitle
+})
+const showExtra = computed(() => {
+  return slotsExist.extra || props.extra
 })
 </script>
 <template>
   <div class="m-result">
-    <div class="m-image">
-      <slot name="image">
+    <div class="result-image">
+      <slot name="icon">
         <svg
           v-if="status === 'info'"
-          class="u-svg svg-info"
+          class="icon-svg icon-info"
           focusable="false"
           data-icon="exclamation-circle"
+          width="1em"
+          height="1em"
+          fill="currentColor"
           aria-hidden="true"
           viewBox="64 64 896 896"
         >
@@ -37,9 +48,12 @@ const showContent = computed(() => {
         </svg>
         <svg
           v-if="status === 'success'"
-          class="u-svg svg-success"
+          class="icon-svg icon-success"
           focusable="false"
           data-icon="check-circle"
+          width="1em"
+          height="1em"
+          fill="currentColor"
           aria-hidden="true"
           viewBox="64 64 896 896"
         >
@@ -49,9 +63,12 @@ const showContent = computed(() => {
         </svg>
         <svg
           v-if="status === 'warning'"
-          class="u-svg svg-warning"
+          class="icon-svg icon-warning"
           focusable="false"
           data-icon="warning"
+          width="1em"
+          height="1em"
+          fill="currentColor"
           aria-hidden="true"
           viewBox="64 64 896 896"
         >
@@ -61,9 +78,12 @@ const showContent = computed(() => {
         </svg>
         <svg
           v-if="status === 'error'"
-          class="u-svg svg-error"
+          class="icon-svg icon-error"
           focusable="false"
           data-icon="close-circle"
+          width="1em"
+          height="1em"
+          fill="currentColor"
           aria-hidden="true"
           viewBox="64 64 896 896"
         >
@@ -71,7 +91,7 @@ const showContent = computed(() => {
             d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
           ></path>
         </svg>
-        <svg v-if="status === '403'" class="u-image" width="251" height="294">
+        <svg v-if="status === '403'" class="result-icon" width="251" height="294">
           <g fill="none" fill-rule="evenodd">
             <path
               d="M0 129.023v-2.084C0 58.364 55.591 2.774 124.165 2.774h2.085c68.574 0 124.165 55.59 124.165 124.165v2.084c0 68.575-55.59 124.166-124.165 124.166h-2.085C55.591 253.189 0 197.598 0 129.023"
@@ -331,7 +351,7 @@ const showContent = computed(() => {
             ></path>
           </g>
         </svg>
-        <svg v-if="status === '404'" class="u-image" width="252" height="294">
+        <svg v-if="status === '404'" class="result-icon" width="252" height="294">
           <defs><path d="M0 .387h251.772v251.772H0z"></path></defs>
           <g fill="none" fill-rule="evenodd">
             <g transform="translate(0 .012)">
@@ -598,7 +618,7 @@ const showContent = computed(() => {
             ></path>
           </g>
         </svg>
-        <svg v-if="status === '500'" class="u-image" width="254" height="294">
+        <svg v-if="status === '500'" class="result-icon" width="254" height="294">
           <defs>
             <path d="M0 .335h253.49v253.49H0z"></path>
             <path d="M0 293.665h253.49V.401H0z"></path>
@@ -918,16 +938,16 @@ const showContent = computed(() => {
         </svg>
       </slot>
     </div>
-    <div class="m-title">
+    <div v-if="showTitle" class="result-title">
       <slot name="title">{{ title }}</slot>
     </div>
-    <div class="m-subtitle">
+    <div v-if="showSubTitle" class="result-subtitle">
       <slot name="subTitle">{{ subTitle }}</slot>
     </div>
-    <div class="m-extra">
-      <slot name="extra"></slot>
+    <div v-if="showExtra" class="result-extra">
+      <slot name="extra">{{ extra }}</slot>
     </div>
-    <div class="m-content" v-if="showContent">
+    <div v-if="slotsExist.default" class="result-content">
       <slot></slot>
     </div>
   </div>
@@ -937,56 +957,59 @@ const showContent = computed(() => {
   padding: 48px 32px;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.88);
-  .m-image {
+  .result-image {
     margin-bottom: 24px;
     text-align: center;
-    .u-svg {
+    .icon-svg {
       display: inline-block;
       vertical-align: bottom;
-      width: 72px;
-      height: 72px;
+      font-size: 72px;
+      fill: currentColor;
     }
-    .svg-info {
-      fill: @themeColor;
+    :deep(svg) {
+      font-size: 72px;
     }
-    .svg-success {
-      fill: #52c41a;
+    .icon-info {
+      color: @themeColor;
     }
-    .svg-warning {
-      fill: #faad14;
+    .icon-success {
+      color: #52c41a;
     }
-    .svg-error {
-      fill: #ff4d4f;
+    .icon-warning {
+      color: #faad14;
     }
-    .u-image {
+    .icon-error {
+      color: #ff4d4f;
+    }
+    .result-icon {
       display: inline-block;
       vertical-align: bottom;
     }
   }
-  .m-title {
+  .result-title {
     color: rgba(0, 0, 0, 0.88);
     font-size: 24px;
     line-height: 1.3333333333333333;
-    margin-block: 8px;
+    margin: 8px 0;
     text-align: center;
   }
-  .m-subtitle {
+  .result-subtitle {
     color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
     line-height: 1.5714285714285714;
     text-align: center;
   }
-  .m-extra {
-    margin: 24px 0 0 0;
+  .result-extra {
+    margin-top: 24px;
     text-align: center;
   }
-  :deep(.m-extra > *) {
-    margin-inline-end: 8px;
+  :deep(.result-extra > *) {
+    margin-right: 8px;
     &:last-child {
-      margin-inline-end: 0;
+      margin-right: 0;
     }
   }
-  .m-content {
+  .result-content {
     margin-top: 24px;
     padding: 24px 40px;
     background-color: rgba(0, 0, 0, 0.02);

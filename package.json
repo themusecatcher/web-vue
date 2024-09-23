@@ -14,7 +14,7 @@
     "build:tag": "run-p type-check build-only",
     "type-check": "vue-tsc --build --force",
     "build-only": "vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --port 9001",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
