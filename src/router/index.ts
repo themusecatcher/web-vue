@@ -47,7 +47,8 @@ const router = createRouter({
 // 注册全局前置守卫
 router.beforeEach((to, from) => {
   const domTitle = to.meta.title
-  document.title = domTitle as string
+  const appTitle = import.meta.env.VITE_GLOB_APP_TITLE
+  document.title = `${domTitle} - ${appTitle}`
 })
 
 export default router

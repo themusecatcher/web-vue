@@ -57,7 +57,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       host: true, // 指定服务器应该监听哪个 IP 地址。 如果将此设置为 0.0.0.0 或者 true 将监听所有地址，包括局域网和公网地址。
       port: VITE_PORT, // 指定开发服务器端口，默认 5173
-      proxy: createProxy(VITE_PROXY), // 为开发服务器配置自定义代理规则。期望接收一个 { key: options } 对象
+      proxy: createProxy(VITE_PROXY), // 只在开发和预览时生效。为开发服务器配置自定义代理规则。期望接收一个 { key: options } 对象
       open: true // 开发服务器启动时，自动在浏览器中打开应用程序。当该值为字符串时，它将被用作 URL 的路径名。
     }
   }
