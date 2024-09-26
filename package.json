@@ -15,6 +15,7 @@
     "type-check": "vue-tsc --build --force",
     "build-only": "vite build",
     "preview": "vite preview --port 9001",
+    "analyze": "vite build --mode analyze",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
@@ -42,6 +43,7 @@
     "npm-run-all2": "^6.2.3",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
+    "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "~5.6.2",
     "unplugin-auto-import": "^0.18.3",
     "unplugin-vue-components": "^0.27.4",

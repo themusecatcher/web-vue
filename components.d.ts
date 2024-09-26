@@ -15,6 +15,5 @@ declare module 'vue' {
     Result: typeof import('./src/components/Result.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TextScroll: typeof import('./src/components/TextScroll.vue')['default']
   }
 }

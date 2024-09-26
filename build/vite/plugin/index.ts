@@ -5,9 +5,10 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { configHtmlPlugin } from './html'
 import { configCompressPlugin } from './compress'
+import { configVisualizerPlugin } from './visualizer'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
-  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE } = viteEnv
+  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_ENABLE_ANALYZE } = viteEnv
 
   const vitePlugins: (Plugin | Plugin[] | PluginOption[])[] = [
     vue(),
@@ -34,6 +35,11 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
+
+  // rollup-plugin-visualizer
+  if (VITE_ENABLE_ANALYZE) {
+    vitePlugins.push(configVisualizerPlugin())
+  }
 
   if (isBuild) {
     // rollup-plugin-gzip
