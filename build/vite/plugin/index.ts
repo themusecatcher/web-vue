@@ -3,14 +3,16 @@ import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import { configHtmlPlugin } from './html'
+
 import { configCompressPlugin } from './compress'
+import { configCDNImportPlugin } from './cdn'
+import { configHtmlPlugin } from './html'
 import { configVisualizerPlugin } from './visualizer'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
-  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_ENABLE_ANALYZE } = viteEnv
+  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_USE_CDN, VITE_ENABLE_ANALYZE } = viteEnv
 
-  const vitePlugins: (Plugin | Plugin[] | PluginOption[])[] = [
+  const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     vue(),
     AutoImport({
       dts: 'src/auto-imports.d.ts', // 自动引入生成的配置文件
@@ -33,17 +35,22 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     })
   ]
 
+  if (isBuild) {
+    // rollup-plugin-gzip
+    vitePlugins.push(configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE))
+  }
+
+  // vite-plugin-cdn-import
+  if (VITE_USE_CDN) {
+    vitePlugins.push(configCDNImportPlugin())
+  }
+
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
 
   // rollup-plugin-visualizer
   if (VITE_ENABLE_ANALYZE) {
     vitePlugins.push(configVisualizerPlugin())
-  }
-
-  if (isBuild) {
-    // rollup-plugin-gzip
-    vitePlugins.push(configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE))
   }
 
   return vitePlugins
