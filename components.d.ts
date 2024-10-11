@@ -7,6 +7,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ACol: typeof import('ant-design-vue/es')['Col']
+    AMenu: typeof import('ant-design-vue/es')['Menu']
+    AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
+    ARow: typeof import('ant-design-vue/es')['Row']
     Button: typeof import('./src/components/Button.vue')['default']
     Result: typeof import('./src/components/Result.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
