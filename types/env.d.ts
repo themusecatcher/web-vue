@@ -4,5 +4,9 @@ declare module '*.vue' {
   const Component: DefineComponent<{}, {}, any>
   export default Component
 }
+interface Window {
+  $message: any
+}
 declare module 'qs'
 declare module 'lodash-es'
+declare module 'vue-amazing-ui'

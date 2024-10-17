@@ -84,14 +84,13 @@ function onWaveEnd() {
       buttonClass
     ]"
     :style="`--ripple-color: ${rippleColor || presetRippleColors[type]};`"
-    :disabled="disabled"
     :href="href ? href : 'javascript:void(0);'"
     :target="href ? target : '_self'"
-    @click="onClick"
-    @keydown.enter.prevent="onKeyboard"
+    @click="disabled || loading ? () => false : onClick($event)"
+    @keydown.enter.prevent="disabled || loading ? () => false : onKeyboard($event)"
   >
     <div v-if="loading || !slotsExist.icon" class="btn-loading">
-      <div v-if="!href && loadingType === 'static'" class="m-ring-circle">
+      <div v-if="!href && loadingType === 'static'" class="m-static-circle">
         <svg class="circle" width="1em" height="1em" fill="currentColor" viewBox="0 0 100 100">
           <path
             d="M 50,50 m 0,-45 a 45,45 0 1 1 0,90 a 45,45 0 1 1 0,-90"
@@ -146,15 +145,15 @@ function onWaveEnd() {
       margin-right 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
       width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
       opacity 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    .m-ring-circle,
+    .m-static-circle,
     .m-dynamic-circle {
       display: inline-flex;
       justify-content: start;
-      .circle {
-        fill: currentColor;
+      .circle .path {
+        stroke: currentColor;
       }
     }
-    .m-ring-circle {
+    .m-static-circle {
       .circle {
         animation: spin-circle 0.8s linear infinite;
         -webkit-animation: spin-circle 0.8s linear infinite;
@@ -170,7 +169,6 @@ function onWaveEnd() {
         animation: spin-circle 2s linear infinite;
         -webkit-animation: spin-circle 2s linear infinite;
         .path {
-          stroke: currentColor;
           stroke-width: 5;
           stroke-dasharray: 90, 150;
           stroke-dashoffset: 0;
