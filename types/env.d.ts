@@ -9,4 +9,3 @@ interface Window {
 }
 declare module 'qs'
 declare module 'lodash-es'
-declare module 'vue-amazing-ui'
