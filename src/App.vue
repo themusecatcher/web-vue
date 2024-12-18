@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Message } from 'vue-amazing-ui'
-import 'vue-amazing-ui/css'
+import 'vue-amazing-ui/es/message/Message.css'
 const message = ref()
 onMounted(() => {
   window['$message'] = message.value
