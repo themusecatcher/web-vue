@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Vue3 + TypeScript + Vite + Less + VueRouter 开发",
+  "description": "基于 Vue3 + TypeScript + Vite + Less 开发的模板项目",
   "scripts": {
     "dev": "vite",
     "push": "sh scripts/push.sh",
