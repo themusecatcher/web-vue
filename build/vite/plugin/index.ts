@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { VueAmazingUIResolver } from 'vue-amazing-ui'
 
 import { configCompressPlugin } from './compress'
 import { configCDNImportPlugin } from './cdn'
@@ -31,7 +32,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
       resolvers: [
         AntDesignVueResolver({
           importStyle: false // css in js
-        })
+        }),
+        // auto import components from VueAmazingUI
+        VueAmazingUIResolver()
       ]
     })
   ]

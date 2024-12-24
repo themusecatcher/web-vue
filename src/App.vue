@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Message } from 'vue-amazing-ui'
-import 'vue-amazing-ui/es/message/Message.css'
 const message = ref()
 onMounted(() => {
   window['$message'] = message.value
@@ -8,7 +6,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   delete window['$message']
 })
-function onClose () {
+function onClose() {
   // console.log('close')
 }
 </script>
