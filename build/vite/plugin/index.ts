@@ -6,11 +6,12 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 import { configCompressPlugin } from './compress'
 import { configCDNImportPlugin } from './cdn'
+import { configStyleImportPlugin } from './style'
 import { configHtmlPlugin } from './html'
 import { configVisualizerPlugin } from './visualizer'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
-  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_USE_CDN, VITE_ENABLE_ANALYZE } = viteEnv
+  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_IMPORT_STYLE, VITE_USE_CDN, VITE_ENABLE_ANALYZE } = viteEnv
 
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     vue(),
@@ -39,6 +40,12 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     // rollup-plugin-gzip
     vitePlugins.push(configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE))
   }
+
+  // vite-plugin-style-import
+  if (VITE_IMPORT_STYLE) {
+    vitePlugins.push(configStyleImportPlugin())
+  }
+
 
   // vite-plugin-cdn-import
   if (VITE_USE_CDN) {

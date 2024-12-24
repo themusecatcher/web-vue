@@ -57,6 +57,7 @@ declare global {
     VITE_PROXY: [string, string][]
     VITE_GLOB_APP_TITLE: string
     VITE_GLOB_APP_SHORT_NAME: string
+    VITE_IMPORT_STYLE: boolean
     VITE_USE_CDN: boolean
     VITE_DROP_CONSOLE: boolean
     VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none'
