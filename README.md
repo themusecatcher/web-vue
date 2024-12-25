@@ -1,18 +1,6 @@
 # web-vue
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+*本模板项目基于 `vue@^3.5.13`+ `typescript@^5.7.2` + `vite@^6.0.5` + `less@^4.2.1` 实现！*
 
 ## Project Setup
 
@@ -20,19 +8,25 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+## Compile and Hot-Reload for Development
 
 ```sh
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Preview on Local Host
+
+```sh
+pnpm preview
+```
+
+## Format, Type-Check, Compile and Minify for Production
 
 ```sh
 pnpm build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Lint with [ESLint](https://eslint.org/)
 
 ```sh
 pnpm lint
