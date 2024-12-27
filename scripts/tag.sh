@@ -24,7 +24,7 @@ echo BUILD SUCCESS 😁😁😁
 
 # git tag -a $version -m $version
 # git push origin $version
-# curl -X POST 'http://ci.jinhui365.cn/view/web/job/web_app_vue/build?token=abcde'
+# curl -X POST '打包资源上传的服务地址'
 
 echo ⏰ "$(date '+%Y-%m-%d %H:%M:%S')"
 
