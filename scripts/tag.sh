@@ -10,10 +10,10 @@ version=`jq -r .version package.json`
 
 # 打包构建
 
-if [ -z ${envMode} ]; then
+if [ -z "${envMode}" ]; then
   pnpm build
 else
-  pnpm build -m ${envMode}
+  pnpm build -m "${envMode}"
 fi
 
 echo BUILD SUCCESS 😁😁😁
@@ -28,8 +28,8 @@ echo BUILD SUCCESS 😁😁😁
 
 echo ⏰ "$(date '+%Y-%m-%d %H:%M:%S')"
 
-if [ -z ${envMode} ]; then
+if [ -z "${envMode}" ]; then
   pnpm preview
 else
-  pnpm preview -m ${envMode}
+  pnpm preview -m "${envMode}"
 fi
