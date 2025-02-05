@@ -45,9 +45,6 @@ const listData = ref([
       </template>
     </ListItem>
   </List>
-  <Tooltip tooltip="Tesla">
-    <Button type="primary">特斯拉</Button>
-  </Tooltip>
   <Popover title="Title">
     <template #content>
       <p>Content</p>
