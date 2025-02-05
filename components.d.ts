@@ -7,7 +7,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Avatar: typeof import('vue-amazing-ui')['Avatar']
+    Button: typeof import('vue-amazing-ui')['Button']
+    FloatButton: typeof import('vue-amazing-ui')['FloatButton']
+    List: typeof import('vue-amazing-ui')['List']
+    ListItem: typeof import('vue-amazing-ui')['ListItem']
+    Message: typeof import('vue-amazing-ui')['Message']
+    Popover: typeof import('vue-amazing-ui')['Popover']
+    Result: typeof import('vue-amazing-ui')['Result']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tooltip: typeof import('vue-amazing-ui')['Tooltip']
   }
 }

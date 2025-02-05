@@ -8,7 +8,7 @@
     "types/**/*.ts",
     "build/**/*.ts",
     "build/**/*.d.ts",
-    "components.d.ts",
+    "*.d.ts",
     "vite.config.ts"
   ],
   "exclude": [
