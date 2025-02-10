@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Avatar: typeof import('vue-amazing-ui')['Avatar']
     Button: typeof import('vue-amazing-ui')['Button']
+    ColorPicker: typeof import('vue-amazing-ui')['ColorPicker']
     FloatButton: typeof import('vue-amazing-ui')['FloatButton']
     List: typeof import('vue-amazing-ui')['List']
     ListItem: typeof import('vue-amazing-ui')['ListItem']
@@ -17,5 +18,6 @@ declare module 'vue' {
     Result: typeof import('vue-amazing-ui')['Result']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Space: typeof import('vue-amazing-ui')['Space']
   }
 }
