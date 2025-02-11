@@ -27,7 +27,6 @@ const listData = ref([
     content: 'content'
   }
 ])
-const colorValue = ref('rgba(0, 0, 0, 1)')
 </script>
 <template>
   <h1>Today is 周{{ week }}</h1>
@@ -53,7 +52,4 @@ const colorValue = ref('rgba(0, 0, 0, 1)')
     </template>
     <Button type="primary">Hover me</Button>
   </Popover>
-  <Space :width="240">
-    <ColorPicker v-model:value="colorValue" />
-  </Space>
 </template>

@@ -19,5 +19,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Space: typeof import('vue-amazing-ui')['Space']
+    Tag: typeof import('vue-amazing-ui')['Tag']
+    Tooltip: typeof import('vue-amazing-ui')['Tooltip']
   }
 }
