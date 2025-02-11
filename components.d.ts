@@ -11,6 +11,7 @@ declare module 'vue' {
     Button: typeof import('vue-amazing-ui')['Button']
     ColorPicker: typeof import('vue-amazing-ui')['ColorPicker']
     FloatButton: typeof import('vue-amazing-ui')['FloatButton']
+    Input: typeof import('vue-amazing-ui')['Input']
     List: typeof import('vue-amazing-ui')['List']
     ListItem: typeof import('vue-amazing-ui')['ListItem']
     Message: typeof import('vue-amazing-ui')['Message']
@@ -19,6 +20,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Space: typeof import('vue-amazing-ui')['Space']
+    Table: typeof import('vue-amazing-ui')['Table']
     Tag: typeof import('vue-amazing-ui')['Tag']
     Tooltip: typeof import('vue-amazing-ui')['Tooltip']
   }
