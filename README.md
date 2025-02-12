@@ -2,6 +2,12 @@
 
 *本模板项目基于 `vue@^3.5.13`+ `typescript@^5.7.3` + `vite@^6.0.11` + `less@^4.2.2` 实现！*
 
+## References
+
+- [Vue3 文档](https://cn.vuejs.org/guide/introduction)
+- [Vue Amazing UI 组件库](https://themusecatcher.github.io/vue-amazing-ui/)
+- [Ant Design Vue 4](https://next.antdv.com/docs/vue/introduce-cn)
+
 ## Features
 
 - 支持设置打包构建时是否启用 `gzip` 压缩或 `brotli` 压缩
