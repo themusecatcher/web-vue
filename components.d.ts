@@ -9,19 +9,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     Avatar: typeof import('vue-amazing-ui')['Avatar']
     Button: typeof import('vue-amazing-ui')['Button']
-    ColorPicker: typeof import('vue-amazing-ui')['ColorPicker']
     FloatButton: typeof import('vue-amazing-ui')['FloatButton']
-    Input: typeof import('vue-amazing-ui')['Input']
     List: typeof import('vue-amazing-ui')['List']
     ListItem: typeof import('vue-amazing-ui')['ListItem']
     Message: typeof import('vue-amazing-ui')['Message']
     Popover: typeof import('vue-amazing-ui')['Popover']
-    Result: typeof import('vue-amazing-ui')['Result']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Space: typeof import('vue-amazing-ui')['Space']
-    Table: typeof import('vue-amazing-ui')['Table']
-    Tag: typeof import('vue-amazing-ui')['Tag']
-    Tooltip: typeof import('vue-amazing-ui')['Tooltip']
   }
 }
