@@ -14,6 +14,7 @@ declare module 'vue' {
     ListItem: typeof import('vue-amazing-ui')['ListItem']
     Message: typeof import('vue-amazing-ui')['Message']
     Popover: typeof import('vue-amazing-ui')['Popover']
+    Result: typeof import('vue-amazing-ui')['Result']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
