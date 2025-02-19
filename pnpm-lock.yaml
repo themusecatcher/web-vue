@@ -30,8 +30,8 @@ importers:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.7.3)
       vue-amazing-ui:
-        specifier: 2.2.4
-        version: 2.2.4(async-validator@4.2.5)(axios@1.7.9)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
+        specifier: 2.2.6
+        version: 2.2.6(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
       vue-router:
         specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.7.3))
@@ -820,6 +820,9 @@ packages:
   '@types/node@22.13.1':
     resolution: {integrity: sha512-jK8uzQlrvXqEU91UxiK5J7pKHyzgnI1Qnl0QDHIgVGuolJhRb9EEl28Cj9b3rGR8B2lhFCtvIm5os8lFnO/1Ew==}
 
+  '@types/qrcode@1.5.5':
+    resolution: {integrity: sha512-CdfBi/e3Qk+3Z/fXYShipBT13OJ2fDO2Q2w5CIP5anLTLIndQG9z6P1cnm+8zCWSpm5dnxMFd/uREtb0EXuQzg==}
+
   '@types/web-bluetooth@0.0.20':
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
 
@@ -992,47 +995,6 @@ packages:
 
   '@vueuse/core@12.7.0':
     resolution: {integrity: sha512-jtK5B7YjZXmkGNHjviyGO4s3ZtEhbzSgrbX+s5o+Lr8i2nYqNyHuPVOeTdM1/hZ5Tkxg/KktAuAVDDiHMraMVA==}
-
-  '@vueuse/integrations@12.7.0':
-    resolution: {integrity: sha512-IEq7K4bCl7mn3uKJaWtNXnd1CAPaHLUMuyj5K1/k/pVcItt0VONZW8xiGxdIovJcQjkzOHjImhX5t6gija+0/g==}
-    peerDependencies:
-      async-validator: ^4
-      axios: ^1
-      change-case: ^5
-      drauu: ^0.4
-      focus-trap: ^7
-      fuse.js: ^7
-      idb-keyval: ^6
-      jwt-decode: ^4
-      nprogress: ^0.2
-      qrcode: ^1.5
-      sortablejs: ^1
-      universal-cookie: ^7
-    peerDependenciesMeta:
-      async-validator:
-        optional: true
-      axios:
-        optional: true
-      change-case:
-        optional: true
-      drauu:
-        optional: true
-      focus-trap:
-        optional: true
-      fuse.js:
-        optional: true
-      idb-keyval:
-        optional: true
-      jwt-decode:
-        optional: true
-      nprogress:
-        optional: true
-      qrcode:
-        optional: true
-      sortablejs:
-        optional: true
-      universal-cookie:
-        optional: true
 
   '@vueuse/metadata@12.7.0':
     resolution: {integrity: sha512-4VvTH9mrjXqFN5LYa5YfqHVRI6j7R00Vy4995Rw7PQxyCL3z0Lli86iN4UemWqixxEvYfRjG+hF9wL8oLOn+3g==}
@@ -2566,8 +2528,8 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-  vue-amazing-ui@2.2.4:
-    resolution: {integrity: sha512-qiHilvO2cKaW3qjfAzlSmFo7QT3F2OW75BFHlmEWSOPcvQHmMEQGyWYbppHeWwaos+5pF50KV+O1f/FicMa+Lw==}
+  vue-amazing-ui@2.2.6:
+    resolution: {integrity: sha512-L3QQA+xAhxKvLYeelP3MpmZ8X5JnaEbf1Skc3p3s1WwN7lHNzYXet7o55wSCNaTe4iP/MWahopRL4OyHRlwwVA==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -3255,6 +3217,10 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
+  '@types/qrcode@1.5.5':
+    dependencies:
+      '@types/node': 22.13.1
+
   '@types/web-bluetooth@0.0.20': {}
 
   '@typescript-eslint/eslint-plugin@8.24.0(@typescript-eslint/parser@8.24.0(eslint@9.20.0)(typescript@5.7.3))(eslint@9.20.0)(typescript@5.7.3)':
@@ -3519,18 +3485,6 @@ snapshots:
       '@vueuse/metadata': 12.7.0
       '@vueuse/shared': 12.7.0(typescript@5.7.3)
       vue: 3.5.13(typescript@5.7.3)
-    transitivePeerDependencies:
-      - typescript
-
-  '@vueuse/integrations@12.7.0(async-validator@4.2.5)(axios@1.7.9)(qrcode@1.5.4)(typescript@5.7.3)':
-    dependencies:
-      '@vueuse/core': 12.7.0(typescript@5.7.3)
-      '@vueuse/shared': 12.7.0(typescript@5.7.3)
-      vue: 3.5.13(typescript@5.7.3)
-    optionalDependencies:
-      async-validator: 4.2.5
-      axios: 1.7.9
-      qrcode: 1.5.4
     transitivePeerDependencies:
       - typescript
 
@@ -5105,28 +5059,17 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-  vue-amazing-ui@2.2.4(async-validator@4.2.5)(axios@1.7.9)(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)):
+  vue-amazing-ui@2.2.6(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3)):
     dependencies:
+      '@types/qrcode': 1.5.5
       '@vuepic/vue-datepicker': 11.0.1(vue@3.5.13(typescript@5.7.3))
       '@vueuse/core': 12.7.0(typescript@5.7.3)
-      '@vueuse/integrations': 12.7.0(async-validator@4.2.5)(axios@1.7.9)(qrcode@1.5.4)(typescript@5.7.3)
       date-fns: 4.1.0
       qrcode: 1.5.4
       seemly: 0.3.10
       swiper: 11.2.4
     transitivePeerDependencies:
-      - async-validator
-      - axios
-      - change-case
-      - drauu
-      - focus-trap
-      - fuse.js
-      - idb-keyval
-      - jwt-decode
-      - nprogress
-      - sortablejs
       - typescript
-      - universal-cookie
       - vue
 
   vue-demi@0.14.10(vue@3.5.13(typescript@5.7.3)):
