@@ -1,6 +1,6 @@
 import type { Plugin, PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import VueDevTools from 'vite-plugin-vue-devtools'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
@@ -16,7 +16,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     vue(),
-    vueDevTools(),
+    VueDevTools(),
     AutoImport({
       // dts: 'src/auto-imports.d.ts', // 自动引入生成的配置文件
       imports: ['vue', 'vue-router', 'pinia'],
