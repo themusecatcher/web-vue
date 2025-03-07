@@ -16,7 +16,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     vue(),
-    VueDevTools(),
+    VueDevTools({
+      // launchEditor: 'cursor'
+    }),
     AutoImport({
       // dts: 'src/auto-imports.d.ts', // 自动引入生成的配置文件
       imports: ['vue', 'vue-router', 'pinia'],
