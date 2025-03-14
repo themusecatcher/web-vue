@@ -1,5 +1,10 @@
 <script setup lang="ts">
 const message = ref()
+const theme = ref({
+  common: {
+    primaryColor: '#ff6900'
+  }
+})
 onMounted(() => {
   window['$message'] = message.value
 })
@@ -11,6 +16,8 @@ function onClose() {
 }
 </script>
 <template>
-  <RouterView />
-  <Message ref="message" @close="onClose" />
+  <ConfigProvider :theme="theme">
+    <RouterView />
+    <Message ref="message" @close="onClose" />
+  </ConfigProvider>
 </template>

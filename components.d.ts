@@ -9,7 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     Avatar: typeof import('vue-amazing-ui')['Avatar']
     Button: typeof import('vue-amazing-ui')['Button']
+    ConfigProvider: typeof import('vue-amazing-ui')['ConfigProvider']
     FloatButton: typeof import('vue-amazing-ui')['FloatButton']
+    Input: typeof import('vue-amazing-ui')['Input']
     List: typeof import('vue-amazing-ui')['List']
     ListItem: typeof import('vue-amazing-ui')['ListItem']
     Message: typeof import('vue-amazing-ui')['Message']
