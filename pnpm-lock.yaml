@@ -87,6 +87,9 @@ importers:
       rollup-plugin-visualizer:
         specifier: ^5.14.0
         version: 5.14.0(rollup@4.35.0)
+      terser:
+        specifier: ^5.39.0
+        version: 5.39.0
       typescript:
         specifier: ~5.8.2
         version: 5.8.2

@@ -45,7 +45,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   ]
 
   if (isBuild) {
-    // rollup-plugin-gzip
+    // vite-plugin-compression
     vitePlugins.push(configCompressPlugin(VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE))
   }
 

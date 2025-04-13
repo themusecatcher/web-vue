@@ -54,6 +54,30 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         }
       }
     },
+    build: {
+      /*
+        minify:
+        设置为 false 可以禁用最小化混淆，或是用来指定使用哪种混淆器。
+        默认为 'esbuild'，它比 terser 快 20-40 倍，压缩率只差 1%-2%。
+        注意，在 lib 模式下使用 'es' 时，build.minify 选项不会缩减空格，因为会移除掉 pure 标注，导致破坏 tree-shaking。
+        当设置为 'terser' 时必须先安装 Terser。（pnpm i terser -D）
+      */
+      minify: 'terser', // 类型：boolean | 'terser' | 'esbuild'，客户端构建默认为 'esbuild'，SSR构建默认为 false，Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效
+      terserOptions: { // 在打包代码时移除 console、debugger 和 注释
+        compress: {
+          /* (default: false) -- Pass true to discard calls to console.* functions.
+            If you wish to drop a specific function call such as console.info and/or
+            retain side effects from function arguments after dropping the function
+            call then use pure_funcs instead
+          */
+          drop_console: isBuild, // 生产环境时移除 console
+          drop_debugger: isBuild
+        },
+        format: {
+          comments: isBuild // 生产环境时删除注释 comments
+        }
+      },
+    },
     server: {
       host: true, // 指定服务器应该监听哪个 IP 地址。 如果将此设置为 0.0.0.0 或者 true 将监听所有地址，包括局域网和公网地址。
       port: VITE_PORT, // 指定开发服务器端口，默认 5173
