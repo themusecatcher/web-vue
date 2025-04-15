@@ -77,6 +77,19 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           comments: isBuild // 生产环境时删除注释 comments
         }
       },
+      // 把组件按组分块
+      rollupOptions: {
+        // https://cn.rollupjs.org/configuration-options/#output-manualchunks
+        // output: {
+        //   manualChunks: {
+        //     'group-user': [
+        //       './src/UserDetails',
+        //       './src/UserDashboard',
+        //       './src/UserProfileEdit'
+        //     ]
+        //   }
+        // }
+      }
     },
     server: {
       host: true, // 指定服务器应该监听哪个 IP 地址。 如果将此设置为 0.0.0.0 或者 true 将监听所有地址，包括局域网和公网地址。
