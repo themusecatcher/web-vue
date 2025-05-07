@@ -39,7 +39,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
           importStyle: false // css in js
         }),
         // auto import components from VueAmazingUI
-        VueAmazingUIResolver()
+        VueAmazingUIResolver({
+          cjs: false // whether use commonjs build, default false
+        })
       ]
     }),
   ]
