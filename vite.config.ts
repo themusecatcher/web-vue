@@ -80,16 +80,24 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       // 把组件按组分块
       rollupOptions: {
         // https://cn.rollupjs.org/configuration-options/#output-manualchunks
-        // output: {
-        //   manualChunks: {
-        //     'group-user': [
-        //       './src/UserDetails',
-        //       './src/UserDashboard',
-        //       './src/UserProfileEdit'
-        //     ]
-        //   }
-        // }
-      }
+        output: {
+          // manualChunks: {
+          //   'group-user': [
+          //     './src/UserDetails',
+          //     './src/UserDashboard',
+          //     './src/UserProfileEdit'
+          //   ]
+          // }
+        }
+      },
+      // 静态资源分类打包配置 https://cn.vitejs.dev/config/build-options.html#build-rollupoptions
+      // rollupOptions: {
+      //   output: {
+      //     entryFileNames: `js/[name]-[hash].js`, // 入口文件输出配置
+      //     chunkFileNames: `js/[name]-[hash].js`, // 自定义命名代码分割中产生的 chunk
+      //     assetFileNames: 'assets/[ext]/[name]-[hash].[ext]' // 静态资源分类打包
+      //   }
+      // }
     },
     server: {
       host: true, // 指定服务器应该监听哪个 IP 地址。 如果将此设置为 0.0.0.0 或者 true 将监听所有地址，包括局域网和公网地址。
