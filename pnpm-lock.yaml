@@ -30,8 +30,8 @@ importers:
         specifier: ^3.5.14
         version: 3.5.14(typescript@5.8.3)
       vue-amazing-ui:
-        specifier: 2.4.7
-        version: 2.4.7(vue@3.5.14(typescript@5.8.3))
+        specifier: 2.4.8
+        version: 2.4.8(vue@3.5.14(typescript@5.8.3))
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.5.14(typescript@5.8.3))
@@ -2191,8 +2191,8 @@ packages:
     resolution: {integrity: sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==}
     engines: {node: '>=8'}
 
-  swiper@11.2.7:
-    resolution: {integrity: sha512-oPJCwdcjFMw3SoBM7AdB1RJzjT7JaE4Mg7TWceTmJ/i2OtF8L01Ct+5eOf48nG3trgR0wXFekWdfnTdl0eg6Pg==}
+  swiper@11.2.8:
+    resolution: {integrity: sha512-S5FVf6zWynPWooi7pJ7lZhSUe2snTzqLuUzbd5h5PHUOhzgvW0bLKBd2wv0ixn6/5o9vwc/IkQT74CRcLJQzeg==}
     engines: {node: '>= 4.7.0'}
 
   synckit@0.11.6:
@@ -2401,8 +2401,8 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
-  vue-amazing-ui@2.4.7:
-    resolution: {integrity: sha512-tPL8lE/8oRHDs7u5Xsp+ArG0Myx8t1Bm9Twwcyev95DQxb95HsOcoBVMOnYJNSC663WyE2PWJ1VO7XELwHFPvQ==}
+  vue-amazing-ui@2.4.8:
+    resolution: {integrity: sha512-faciLGLHLszN/bmE1cjio5DYzbqmogdFtmWsGkTcLH7rlZey41G+oRKXwrjkcX3PVKuIel1SfIrWLQ/E7dAxiw==}
 
   vue-eslint-parser@10.1.3:
     resolution: {integrity: sha512-dbCBnd2e02dYWsXoqX5yKUZlOt+ExIpq7hmHKPb5ZqKcjf++Eo0hMseFTZMLKThrUk61m+Uv6A2YSBve6ZvuDQ==}
@@ -4575,7 +4575,7 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  swiper@11.2.7: {}
+  swiper@11.2.8: {}
 
   synckit@0.11.6:
     dependencies:
@@ -4814,7 +4814,7 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
-  vue-amazing-ui@2.4.7(vue@3.5.14(typescript@5.8.3)):
+  vue-amazing-ui@2.4.8(vue@3.5.14(typescript@5.8.3)):
     dependencies:
       '@ant-design/colors': 8.0.0
       '@ctrl/tinycolor': 4.1.0
@@ -4823,7 +4823,7 @@ snapshots:
       date-fns: 4.1.0
       qrcode: 1.5.4
       seemly: 0.3.10
-      swiper: 11.2.7
+      swiper: 11.2.8
     transitivePeerDependencies:
       - vue
 
