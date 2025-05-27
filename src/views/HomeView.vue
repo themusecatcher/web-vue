@@ -31,10 +31,6 @@ const listData = ref([
 <template>
   <h1>Today is 周{{ week }}</h1>
   <h1>Date: {{ year }}-{{ month }}-{{ day }} {{ hour }}:{{ minute }}:{{ second }}</h1>
-  <Button>按钮</Button>
-  <FloatButton>
-    <template #icon>😉</template>
-  </FloatButton>
   <List>
     <ListItem v-for="(data, index) in listData" :key="index" :title="data.title">
       <template #avatar>
@@ -45,11 +41,4 @@ const listData = ref([
       </template>
     </ListItem>
   </List>
-  <Popover title="Title">
-    <template #content>
-      <p>Content</p>
-      <p>Content</p>
-    </template>
-    <Button type="primary">Hover me</Button>
-  </Popover>
 </template>
