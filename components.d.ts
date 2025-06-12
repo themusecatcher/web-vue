@@ -13,6 +13,7 @@ declare module 'vue' {
     Button: typeof import('vue-amazing-ui')['Button']
     Card: typeof import('vue-amazing-ui')['Card']
     ConfigProvider: typeof import('vue-amazing-ui')['ConfigProvider']
+    Divider: typeof import('vue-amazing-ui')['Divider']
     Flex: typeof import('vue-amazing-ui')['Flex']
     List: typeof import('vue-amazing-ui')['List']
     ListItem: typeof import('vue-amazing-ui')['ListItem']
@@ -20,5 +21,7 @@ declare module 'vue' {
     Result: typeof import('vue-amazing-ui')['Result']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Table: typeof import('vue-amazing-ui')['Table']
+    Tag: typeof import('vue-amazing-ui')['Tag']
   }
 }

@@ -124,7 +124,7 @@ export class VAxios {
     //这里重新 赋值成最新的配置
     // @ts-ignore
     conf.requestOptions = opt
-    console.log(opt)
+    // console.log(opt)
     return new Promise((resolve, reject) => {
       this.axiosInstance
         .request<any, AxiosResponse<Result>>(conf)

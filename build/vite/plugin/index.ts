@@ -9,10 +9,11 @@ import { VueAmazingUIResolver } from 'vue-amazing-ui'
 import { configCompressPlugin } from './compress'
 import { configCDNImportPlugin } from './cdn'
 import { configHtmlPlugin } from './html'
+import { configMockPlugin } from './mock'
 import { configVisualizerPlugin } from './visualizer'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
-  const { VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_USE_CDN, VITE_ENABLE_ANALYZE } = viteEnv
+  const { VITE_USE_MOCK, VITE_BUILD_COMPRESS, VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE, VITE_USE_CDN, VITE_ENABLE_ANALYZE } = viteEnv
 
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     vue(),
@@ -58,6 +59,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
+
+  // vite-plugin-mock
+  VITE_USE_MOCK && vitePlugins.push(configMockPlugin())
 
   // rollup-plugin-visualizer
   if (VITE_ENABLE_ANALYZE) {
