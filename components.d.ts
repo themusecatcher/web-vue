@@ -8,9 +8,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Alert: typeof import('vue-amazing-ui')['Alert']
     Avatar: typeof import('vue-amazing-ui')['Avatar']
     Button: typeof import('vue-amazing-ui')['Button']
+    Card: typeof import('vue-amazing-ui')['Card']
     ConfigProvider: typeof import('vue-amazing-ui')['ConfigProvider']
+    Flex: typeof import('vue-amazing-ui')['Flex']
     List: typeof import('vue-amazing-ui')['List']
     ListItem: typeof import('vue-amazing-ui')['ListItem']
     Message: typeof import('vue-amazing-ui')['Message']
