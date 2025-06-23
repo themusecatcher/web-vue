@@ -37,7 +37,7 @@ export const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // 使用history模式，hash模式：createWebHashHistory
+  history: createWebHistory(import.meta.env.BASE_URL), // 使用 history 模式，hash 模式：createWebHashHistory
   routes, // `routes: routes` 的缩写
   scrollBehavior(to, from, savedPosition) {
     // 滚动行为
