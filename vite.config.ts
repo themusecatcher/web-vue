@@ -89,6 +89,11 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           //     './src/UserProfileEdit'
           //   ]
           // }
+          manualChunks: (id) => { // 打包优化，将不常变动的第三方依赖包统一放到 vendors 包中，这样每次打包时，vendors 包都保持不变，从而实现缓存
+            if (id.includes('node_modules') && (id.endsWith('.js') || id.endsWith('.ts'))) {
+              return 'vendors'
+            }
+          }
         }
       },
       // 静态资源分类打包配置 https://cn.vitejs.dev/config/build-options.html#build-rollupoptions
