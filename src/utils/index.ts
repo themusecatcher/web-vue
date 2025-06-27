@@ -77,40 +77,47 @@ export function getUrlParams(url?: string) {
  * @returns 如果是单个插槽名称，则返回一个计算属性，表示该插槽是否存在
  *          如果是插槽名称数组，则返回一个 reactive 对象，其中的每个属性对应该插槽是否存在
  */
-import { useSlots, reactive, computed } from 'vue'
-export function useSlotsExist(slotsName: string | string[] = 'default') {
+import { useSlots, reactive, computed, Comment, Text } from 'vue'
+import type { ComputedRef, Reactive, VNode } from 'vue'
+type SlotsExistResult<T extends string | string[]> = T extends string
+  ? ComputedRef<boolean>
+  : Reactive<Record<string, ComputedRef<boolean>>>
+export function useSlotsExist<T extends string | string[] = 'default'>(slotsName: T): SlotsExistResult<T> {
   const slots = useSlots() // 获取当前组件的所有插槽
   // 检查特定名称的插槽是否存在且不为空
-  const checkSlotsExist = (slotsName: string): boolean => {
-    const slotsContent = slots[slotsName]?.()
-    if (slotsContent && slotsContent?.length) {
-      const firstSlot = slotsContent[0]
-      if (typeof firstSlot.children === 'string') {
-        if (firstSlot.children === 'v-if') {
-          return false
-        }
-        return firstSlot.children.trim() !== ''
-      } else {
-        if (firstSlot.children === null) {
-          if (firstSlot.type === 'img' || typeof firstSlot.type !== 'string') {
-            return true
-          }
-        } else {
-          return Boolean(firstSlot.children)
-        }
+  const checkSlotsExist = (slotName: string): boolean => {
+    const slotsContent = slots[slotName]?.()
+    const checkExist = (slotContent: VNode) => {
+      if (slotContent.type === Comment) {
+        return false
       }
+      if (Array.isArray(slotContent.children) && !slotContent.children.length) {
+        return false
+      }
+      if (slotContent.type !== Text) {
+        return true
+      }
+      if (typeof slotContent.children === 'string') {
+        return slotContent.children.trim() !== ''
+      }
+    }
+    if (slotsContent && slotsContent?.length) {
+      const result = slotsContent.some((slotContent: VNode) => {
+        return checkExist(slotContent)
+      })
+      return result
     }
     return false
   }
   if (Array.isArray(slotsName)) {
-    const slotsExist = reactive<any>({})
-    slotsName.forEach((item) => {
-      const exist = computed(() => checkSlotsExist(item))
-      slotsExist[item] = exist // 将一个 ref 赋值给一个 reactive 属性时，该 ref 会自动解包
+    const slotsExist = reactive<Record<string, ComputedRef<boolean>>>({})
+    slotsName.forEach((slotName: string) => {
+      const exist = computed(() => checkSlotsExist(slotName))
+      slotsExist[slotName] = exist // 将一个 ref 赋值给一个 reactive 属性时，该 ref 会自动解包
     })
-    return slotsExist
+    return slotsExist as SlotsExistResult<T>
   } else {
-    return computed(() => checkSlotsExist(slotsName))
+    return computed(() => checkSlotsExist(slotsName)) as SlotsExistResult<T>
   }
 }
 /**
@@ -121,7 +128,7 @@ export function useSlotsExist(slotsName: string | string[] = 'default') {
  * @param interval 是否间隔执行，如果为 true，则在首次执行后，以 delay 为间隔持续执行
  * @returns 返回一个对象，包含一个 id 属性，该 id 为 requestAnimationFrame 的调用 ID，可用于取消动画帧
  */
-export function rafTimeout(fn: Function, delay: number = 0, interval: boolean = false): object {
+export function rafTimeout(fn: Function, delay: number = 0, interval: boolean = false): { id: number } {
   let start: number | null = null // 记录动画开始的时间戳
   function timeElapse(timestamp: number) {
     // 定义动画帧回调函数
@@ -182,13 +189,14 @@ export function cancelRaf(raf: { id: number }): void {
  * @param options ResizeObserver 选项，用于定制观察行为
  * @returns 返回一个对象，包含停止和开始观察的方法，使用者可以调用 start 方法开始观察，调用 stop 方法停止观察
  */
-import { ref, toValue, watch, onBeforeUnmount } from 'vue'
+import { ref, toValue, watch, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 import type { Ref } from 'vue'
 export function useResizeObserver(
   target: Ref | Ref[] | HTMLElement | HTMLElement[],
   callback: ResizeObserverCallback,
   options: object = {}
-) {
+): { start: () => void; stop: () => void } {
+  const isSupported = useSupported(() => window && 'ResizeObserver' in window)
   let observer: ResizeObserver | undefined
   const stopObservation = ref(false)
   const targets = computed(() => {
@@ -211,7 +219,7 @@ export function useResizeObserver(
   }
   // 初始化 ResizeObserver，开始观察目标元素
   const observeElements = () => {
-    if (targets.value.length && !stopObservation.value) {
+    if (isSupported.value && targets.value.length && !stopObservation.value) {
       observer = new ResizeObserver(callback)
       targets.value.forEach((element: HTMLElement) => observer!.observe(element, options))
     }
@@ -228,18 +236,38 @@ export function useResizeObserver(
       flush: 'post'
     }
   )
-  const stop = () => {
-    stopObservation.value = true
-    cleanup()
-  }
   const start = () => {
     stopObservation.value = false
     observeElements()
   }
+  const stop = () => {
+    stopObservation.value = true
+    cleanup()
+  }
   // 在组件卸载前清理 ResizeObserver
   onBeforeUnmount(() => cleanup())
   return {
-    stop,
-    start
+    start,
+    stop
   }
+}
+// 辅助函数
+export function useSupported(callback: () => unknown): ComputedRef<boolean> {
+  const isMounted = useMounted()
+  return computed(() => {
+    // to trigger the ref
+    isMounted.value
+    return Boolean(callback())
+  })
+}
+export function useMounted(): Ref<boolean> {
+  const isMounted = ref(false)
+  // 获取当前组件的实例
+  const instance = getCurrentInstance()
+  if (instance) {
+    onMounted(() => {
+      isMounted.value = true
+    }, instance)
+  }
+  return isMounted
 }
