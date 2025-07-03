@@ -1,10 +1,26 @@
 import { isObject } from './is/index'
-// 获取静态资源地址
-export function getImageUrl(name: any): string {
-  return new URL(`../assets/images/${name}.jpg`, import.meta.url).href
+
+/**
+ * 根据文件名和类型获取静态资源地址
+ *
+ * @param {string | number} name 图片文件的名称，可以是字符串或数字类型
+ * @param {string} [type = 'png'] 图片文件的类型，默认为 'png'
+ * @returns {string} 返回图片的完整 URL 地址
+ */
+export function getImageUrl(name: string | number, type: string = 'png'): string {
+  return new URL(`../assets/images/${name}.${type}`, import.meta.url).href
 }
 
-// dynamic use hook props
+/**
+ * 深度合并两个对象
+ *
+ * 该函数的目的是将两个对象进行深度合并，意味着如果对象的属性值是另一个对象，
+ * 则会递归地合并这些内部对象，而不是简单地覆盖它们
+ *
+ * @param {any} [src = {}] 源对象，将被合并的对象
+ * @param {any} [target = {}] 目标对象，其属性将被合并到源对象中
+ * @returns 返回合并后的对象，具有源对象和目标对象的所有属性
+ */
 export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
   let key: string
   for (key in target) {
@@ -14,23 +30,25 @@ export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
 }
 
 /**
- * Sums the passed percentage to the R, G or B of a HEX color
- * @param {string} color The color to change
- * @param {number} amount The amount to change the color by
- * @returns {string} The processed part of the color
+ * 检查给定的字符串是否是有效的 URL
+ *
+ * 该函数使用正则表达式来验证字符串是否以 http 或 https 协议开头，从而判断其是否可能是一个 URL
+ * 这是一个简单的验证，仅检查 URL 的开头部分，并不检查域名的有效性或路径的正确性
+ *
+ * @param {string} url 待验证的字符串
+ * @returns {boolean} 如果字符串可能是有效的 URL，则返回 true；否则返回 false
  */
-
-/**
- * 判断是否 url
- * */
-export function isUrl(url: string) {
+export function isUrl(url: string): boolean {
   return /^(http|https):\/\//g.test(url)
 }
+
 /**
- * 将对象添加当作参数拼接到URL上面
- * @param baseUrl 需要拼接的url
- * @param obj 参数对象
- * @returns {string} 拼接后的对象
+ * 将对象的属性转换为 URL 的查询参数并附加到 URL 上
+ *
+ * @param {string} baseUrl 待拼接查询参数的 url
+ * @param {object} obj 查询参数对象
+ * @returns {string} 返回包含查询参数的完整 URL
+ *
  * 例子:
  *  let obj = {a: '3', b: '4'}
  *  setObjToUrlParams('www.baidu.com', obj)
@@ -50,7 +68,17 @@ export function setObjToUrlParams(baseUrl: string, obj: object): string {
   }
   return url
 }
-export function getUrlParams(url?: string) {
+
+/**
+ * 获取 URL 中的参数
+ *
+ * 此函数旨在解析给定 URL 中的查询参数，并将其转换为一个键值对对象
+ * 如果没有提供 URL，则使用当前页面的 URL 进行解析
+ *
+ * @param {string} url 可选；要解析的 URL，默认为当前页面的 URL
+ * @returns {object} 返回一个包含 URL 查询参数的键值对对象
+ */
+export function getUrlParams(url?: string): object {
   // 如果没有传入 URL，则使用当前页面的 URL
   url = url || window.location.href
 
@@ -69,11 +97,12 @@ export function getUrlParams(url?: string) {
 
   return params
 }
+
 /**
  * 组合式函数
  * 监听给定名称或名称数组的插槽是否存在，支持监听单个插槽或一组插槽的存在
  *
- * @param slotsName - 插槽的名称或名称数组，默认为 'default'
+ * @param {string | string[]} [slotsName = 'default'] - 插槽的名称或名称数组，默认为 'default'
  * @returns 如果是单个插槽名称，则返回一个计算属性，表示该插槽是否存在
  *          如果是插槽名称数组，则返回一个 reactive 对象，其中的每个属性对应该插槽是否存在
  */
@@ -120,12 +149,13 @@ export function useSlotsExist<T extends string | string[] = 'default'>(slotsName
     return computed(() => checkSlotsExist(slotsName)) as SlotsExistResult<T>
   }
 }
+
 /**
  * 使用 requestAnimationFrame 实现的延迟 setTimeout 或间隔 setInterval 调用函数
  *
- * @param fn 要执行的函数
- * @param delay 延迟的时间，单位为 ms，默认为 0，表示不延迟立即执行
- * @param interval 是否间隔执行，如果为 true，则在首次执行后，以 delay 为间隔持续执行
+ * @param {Function} fn 要执行的函数
+ * @param {number} [delay = 0] 延迟的时间，单位为 ms，默认为 0，表示不延迟立即执行
+ * @param {boolean} [interval = false] 是否间隔执行，如果为 true，则在首次执行后，以 delay 为间隔持续执行
  * @returns 返回一个对象，包含一个 id 属性，该 id 为 requestAnimationFrame 的调用 ID，可用于取消动画帧
  */
 export function rafTimeout(fn: Function, delay: number = 0, interval: boolean = false): { id: number } {
@@ -164,6 +194,7 @@ export function rafTimeout(fn: Function, delay: number = 0, interval: boolean = 
   }
   return raf
 }
+
 /**
  * 用于取消 rafTimeout 函数
  *
@@ -178,6 +209,7 @@ export function cancelRaf(raf: { id: number }): void {
     console.warn('cancelRaf received an invalid id:', raf)
   }
 }
+
 /**
  * 组合式函数
  * 使用 ResizeObserver 观察 DOM 元素尺寸变化
