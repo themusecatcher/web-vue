@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { isNumber } from './is'
-const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
-const DATE_FORMAT = 'YYYY-MM-DD'
+const DATE_TIME_FORMAT = 'yyyy-MM-dd HH:mm:ss'
+const DATE_FORMAT = 'yyyy-MM-dd'
 // 时间补0
 export function toDouble(iNum: number) {
   return iNum < 10 ? '0' + iNum : iNum
