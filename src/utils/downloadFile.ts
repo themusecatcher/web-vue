@@ -1,6 +1,8 @@
 /**
- * 根据文件url获取文件名
- * @param url 文件url
+ * 从 URL 中提取文件名
+ * 
+ * @param {string} url 包含文件名的URL字符串
+ * @returns {string} 提取的文件名
  */
 function getFileName(url: string): string {
   const num = url.lastIndexOf('/') + 1
@@ -12,6 +14,7 @@ function getFileName(url: string): string {
 
 /**
  * 根据文件地址下载文件
+ *
  * @param {*} sUrl
  */
 export function downloadByUrl({
