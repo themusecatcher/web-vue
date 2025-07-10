@@ -1,4 +1,4 @@
-import pluginVue from 'eslint-plugin-vue'
+import pluginVue from 'eslint-plugin-vue' // 专为 Vue 设计的代码质量检查工具
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript' // 为 Vue + TypeScript 项目提供开箱即用的 ESLint 规则
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting' // 解决 ESLint 和 Prettier 的规则冲突
 
