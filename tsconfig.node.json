@@ -1,3 +1,4 @@
+// Node 环境配置（服务端/工具链配置）
 {
   "extends": "@tsconfig/node22/tsconfig.json",
   "include": [

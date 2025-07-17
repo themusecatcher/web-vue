@@ -211,6 +211,56 @@ export function cancelRaf(raf: { id: number }): void {
 }
 
 /**
+ * 防抖函数 debounce
+ *
+ * 主要用于限制函数调用的频率，当频繁触发某个函数时，实际上只需要在最后一次触发后的一段时间内执行一次即可
+ * 这对于诸如输入事件处理函数、窗口大小调整事件处理函数等可能会频繁触发的函数非常有用
+ *
+ * @param {Function} fn 要执行的函数
+ * @param {number} [delay = 300] 防抖的时间期限，单位 ms，默认为 300ms
+ * @returns {Function} 返回一个新的防抖的函数
+ */
+export function debounce(fn: Function, delay: number = 300): Function {
+  let timer: any = null // 使用闭包保存定时器的引用
+  return function (...args: any[]) {
+    // 返回一个包装函数
+    if (timer) {
+      // 如果定时器存在，则清除之前的定时器
+      clearTimeout(timer)
+    }
+    // 设置新的定时器，延迟执行原函数
+    timer = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+/**
+ * 节流函数 throttle
+ *
+ * 该函数用于生成一个节流函数，用于控制某个函数在给定时间间隔内只能被执行一次
+ * 主要用于性能优化，例如限制事件处理函数的触发频率
+ *
+ * @param {Function} fn 要被节流的函数
+ * @param {number} [delay = 300] 节流的时间间隔，单位 ms，默认为 300ms
+ * @returns {Function} 返回一个新的节流的函数
+ */
+export function throttle(fn: Function, delay: number = 300): Function {
+  let valid = true // 用于标记函数是否可以执行
+  return function (...args: any[]) {
+    if (!valid) return false // 返回 false，表示当前不执行函数
+    // 返回一个新的函数，该函数负责执行节流逻辑
+    if (valid) {
+      fn(...args) // 执行原函数
+      valid = false // 将函数置为无效
+      setTimeout(() => {
+        valid = true
+      }, delay)
+    }
+  }
+}
+
+/**
  * 组合式函数
  * 使用 ResizeObserver 观察 DOM 元素尺寸变化
  *
