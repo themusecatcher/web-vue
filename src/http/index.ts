@@ -16,7 +16,7 @@ console.log('urlPrefix', urlPrefix)
  * @description: 数据处理，方便区分多种处理方式
  */
 const transform: AxiosTransform = {
-  // 请求之前处理config
+  // 请求之前处理 config
   beforeRequestHook: (config, options) => {
     console.log('before config', config)
     console.log('before options', options)
@@ -40,10 +40,10 @@ const transform: AxiosTransform = {
     const data = config.data || false
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       if (!isString(params)) {
-        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        // 给 get 请求加上时间戳参数，避免从缓存中拿数据
         config.params = Object.assign(params || {}, joinTimestamp(joinTime, false))
       } else {
-        // 兼容restful风格
+        // 兼容 restful 风格
         config.url = config.url + params + `${joinTimestamp(joinTime, true)}`
         config.params = undefined
       }
@@ -61,7 +61,7 @@ const transform: AxiosTransform = {
           config.url = setObjToUrlParams(config.url as string, Object.assign({}, config.params, config.data))
         }
       } else {
-        // 兼容restful风格
+        // 兼容 restful 风格
         config.url = config.url + params
         config.params = undefined
       }
@@ -72,7 +72,7 @@ const transform: AxiosTransform = {
    * @description: 请求拦截器处理
    */
   requestInterceptors: (config, options) => {
-    // 请求之前处理config
+    // 请求之前处理 config
     const token = null
     // console.log('config', config)
     // console.log('options', options)
@@ -133,13 +133,13 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         transform,
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
-          // 默认将prefix 添加到url
+          // 默认将 prefix 添加到url
           joinPrefix: true,
           // 是否返回原生响应头 比如：需要获取响应头时使用该属性
           isReturnNativeResponse: false,
           // 需要对返回数据进行处理
           isTransformResponse: true,
-          // post请求的时候添加参数到url
+          // post 请求的时候添加参数到 url
           joinParamsToUrl: false,
           // 格式化提交参数时间
           formatDate: true,
