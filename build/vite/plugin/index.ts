@@ -35,7 +35,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
       ],
       eslintrc: {
         enabled: true, // 默认 false, true 启用。生成一次就可以，为避免每次工程启动都生成，一旦生成配置文件之后，可以把 enable 关掉
-        filepath: './.eslintrc-auto-import.json', // 生成json文件,可以不配置该项，默认就是将生成在根目录
+        filepath: './.eslintrc-auto-import.json', // 生成 json 文件,可以不配置该项，默认就是将生成在根目录
         globalsPropValue: true
       }
     }),
