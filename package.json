@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "author": "theMuseCatcher",
   "description": "基于 Vue3 + TypeScript + Vite + Less 开发的模板项目",
   "scripts": {
     "dev": "vite",
@@ -63,6 +64,16 @@
     "vite-plugin-vue-devtools": "^7.7.7",
     "vue-tsc": "^2.2.10"
   },
+  "keywords": [
+    "Vue3",
+    "TypeScript",
+    "Vite",
+    "Less",
+    "Web",
+    "Template",
+    "VueAmazingUI",
+    "Out-of-the-box"
+  ],
   "lint-staged": {
     "*.{js,ts}": [
       "prettier --write",
