@@ -26,27 +26,30 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   return {
     base: VITE_PUBLIC_PATH,
     plugins: createVitePlugins(viteEnv, isBuild),
-    define: { // 定义全局常量替换方式。其中每项在开发环境下会被定义在全局，而在构建时被静态替换。
-      __APP_INFO__: JSON.stringify(__APP_INFO__),
+    define: {
+      // 定义全局常量替换方式。其中每项在开发环境下会被定义在全局，而在构建时被静态替换。
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
         '#': fileURLToPath(new URL('./types', import.meta.url)),
-        'apis': fileURLToPath(new URL('./src/apis', import.meta.url)),
-        'images': fileURLToPath(new URL('./src/assets/images', import.meta.url)),
-        'less': fileURLToPath(new URL('./src/assets/less', import.meta.url)),
-        'components': fileURLToPath(new URL('./src/components', import.meta.url)),
-        'enums': fileURLToPath(new URL('./src/enums', import.meta.url)),
-        'hooks': fileURLToPath(new URL('./src/hooks', import.meta.url)),
-        'http': fileURLToPath(new URL('./src/http', import.meta.url)),
-        'utils': fileURLToPath(new URL('./src/utils', import.meta.url))
+        apis: fileURLToPath(new URL('./src/apis', import.meta.url)),
+        images: fileURLToPath(new URL('./src/assets/images', import.meta.url)),
+        less: fileURLToPath(new URL('./src/assets/less', import.meta.url)),
+        components: fileURLToPath(new URL('./src/components', import.meta.url)),
+        enums: fileURLToPath(new URL('./src/enums', import.meta.url)),
+        hooks: fileURLToPath(new URL('./src/hooks', import.meta.url)),
+        http: fileURLToPath(new URL('./src/http', import.meta.url)),
+        stores: fileURLToPath(new URL('./src/stores', import.meta.url)),
+        utils: fileURLToPath(new URL('./src/utils', import.meta.url))
       }
     },
     css: {
       preprocessorOptions: {
         less: {
-          modifyVars: { // 或者 globalVars
+          modifyVars: {
+            // 或者 globalVars
             // `themeColor` is global variables fields name
             themeColor: '#ff6900'
           },
@@ -63,7 +66,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         当设置为 'terser' 时必须先安装 Terser。（pnpm i terser -D）
       */
       minify: 'terser', // 类型：boolean | 'terser' | 'esbuild'，客户端构建默认为 'esbuild'，SSR构建默认为 false，Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效
-      terserOptions: { // 在打包代码时移除 console、debugger 和 注释
+      terserOptions: {
+        // 在打包代码时移除 console、debugger 和 注释
         compress: {
           /* (default: false) -- Pass true to discard calls to console.* functions.
             If you wish to drop a specific function call such as console.info and/or
@@ -89,13 +93,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           //     './src/UserProfileEdit'
           //   ]
           // }
-          manualChunks: (id: string) => { // 打包优化，将不常变动的第三方依赖包统一放到 vendors 包中，这样每次打包时，vendors 包都保持不变，从而实现缓存
+          manualChunks: (id: string) => {
+            // 打包优化，将不常变动的第三方依赖包统一放到 vendors 包中，这样每次打包时，vendors 包都保持不变，从而实现缓存
             if (id.includes('node_modules') && (id.endsWith('.js') || id.endsWith('.ts'))) {
               return 'vendors'
             }
           }
         }
-      },
+      }
       // 静态资源分类打包配置 https://cn.vitejs.dev/config/build-options.html#build-rollupoptions
       // rollupOptions: {
       //   output: {
