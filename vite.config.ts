@@ -98,6 +98,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             if (id.includes('node_modules') && (id.endsWith('.js') || id.endsWith('.ts'))) {
               return 'vendors'
             }
+          },
+          // 处理使用中文命名的静态资源（例如：图片），以避免某些服务器不兼容中文命名名资源的情况
+          assetFileNames: (assetInfo) => {
+            // console.log('assetInfo name', assetInfo.names[0])
+            if (/[\u4e00-\u9fa5]/.test(assetInfo.names[0])) {
+              return 'assets/[hash][extname]'
+            }
+            return 'assets/[name]-[hash][extname]'
           }
         }
       }
