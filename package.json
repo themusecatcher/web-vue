@@ -12,7 +12,6 @@
     "build": "run-s format clean build-only",
     "format": "prettier --write src/",
     "clean": "rimraf ./dist",
-    "build:tag": "run-p type-check build-only",
     "type-check": "vue-tsc --build --force",
     "build-only": "vite build && esno ./build/script/postBuild.ts",
     "preview": "pnpm build && vite preview --port 9001",
