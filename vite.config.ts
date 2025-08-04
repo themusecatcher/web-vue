@@ -50,8 +50,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         less: {
           modifyVars: {
             // 或者 globalVars
-            // `themeColor` is global variables fields name
-            themeColor: '#ff6900'
+            // `theme-color` is global variables fields name
+            'theme-color': '#ff6900'
           },
           javascriptEnabled: true
         }
