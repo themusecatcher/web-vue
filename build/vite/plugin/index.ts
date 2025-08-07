@@ -31,7 +31,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     VueDevTools({
       // https://devtools.vuejs.org
       // https://github.com/yyx990803/launch-editor?tab=readme-ov-file#supported-editors
-      // launchEditor: 'cursor' // code | cursor ...
+      launchEditor: 'cursor' // code | cursor ...
     }),
     // unplugin-auto-import 自动按需导入项目自定义的 API 和第三方依赖的 API
     AutoImport({
