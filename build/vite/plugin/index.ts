@@ -1,5 +1,6 @@
 import type { Plugin, PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import svgLoader from 'vite-svg-loader'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -23,16 +24,24 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   const vitePlugins: (Plugin | Plugin[] | PluginOption | PluginOption[])[] = [
     vue(),
-    VueDevTools({
-      // launchEditor: 'cursor'
+    svgLoader({
+      // 用于支持在项目中以 Component 的形式引入使用 SVG 文件
+      defaultImport: 'component'
     }),
+    VueDevTools({
+      // https://devtools.vuejs.org
+      // https://github.com/yyx990803/launch-editor?tab=readme-ov-file#supported-editors
+      // launchEditor: 'cursor' // code | cursor ...
+    }),
+    // unplugin-auto-import 自动按需导入项目自定义的 API 和第三方依赖的 API
     AutoImport({
-      // dts: 'src/auto-imports.d.ts', // 自动引入生成的配置文件
-      imports: ['vue', 'vue-router', 'pinia'],
+      // https://github.com/unplugin/unplugin-auto-import
+      // dts: true, // AutoImport 生成的配置文件，默认 在根目录下 auto-imports.d.ts
       dirs: [
         'src/apis/**', // 递归扫描 apis 目录
         'src/utils/*.ts' // 扫描 utils 目录的顶级文件
       ],
+      imports: ['vue', 'vue-router', 'pinia'],
       eslintrc: {
         enabled: true, // 默认 false, true 启用。生成一次就可以，为避免每次工程启动都生成，一旦生成配置文件之后，可以把 enable 关掉
         filepath: './.eslintrc-auto-import.json', // 生成 json 文件,可以不配置该项，默认就是将生成在根目录
@@ -41,9 +50,10 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     }),
     // unplugin-vue-components 自动按需引入项目自定义组件和组件库的组件
     Components({
-      // dts: 'src/components.d.ts', // 自动引入生成的配置文件
-      // dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
-      // deep: true, // 深度扫描，默认 false
+      // https://github.com/unplugin/unplugin-vue-components
+      // dts: true, // Components 生成的配置文件，默认 在根目录下 components.d.ts
+      dirs: ['src/components'], // 配置需要默认导入的自定义组件文件夹，该文件夹下的所有组件都会自动 import
+      deep: true, // 深度扫描，默认 false
       resolvers: [
         AntDesignVueResolver({
           importStyle: false // css in js
