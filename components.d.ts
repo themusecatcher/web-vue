@@ -11,6 +11,7 @@ declare module 'vue' {
     Button: typeof import('vue-amazing-ui')['Button']
     ConfigProvider: typeof import('vue-amazing-ui')['ConfigProvider']
     Message: typeof import('vue-amazing-ui')['Message']
+    Modal: typeof import('vue-amazing-ui')['Modal']
     Result: typeof import('vue-amazing-ui')['Result']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

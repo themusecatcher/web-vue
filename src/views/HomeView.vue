@@ -1,6 +1,7 @@
 <script setup lang="ts">
 onMounted(() => {
-  window.$message.success('点击了按钮')
+  // window.$message.success('点击了按钮')
+  console.log('message', window.$message)
 })
 </script>
 <template>

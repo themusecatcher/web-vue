@@ -1,23 +1,24 @@
 <script setup lang="ts">
-const message = ref()
+const messageRef = useTemplateRef('messageRef')
+const modalRef = useTemplateRef('modalRef')
 const theme = ref({
   common: {
     primaryColor: '#ff6900'
   }
 })
 onMounted(() => {
-  window['$message'] = message.value
+  window['$message'] = messageRef.value
+  window['$modal'] = modalRef.value
 })
 onBeforeUnmount(() => {
   delete window['$message']
+  delete window['$modal']
 })
-function onClose() {
-  // console.log('close')
-}
 </script>
 <template>
   <ConfigProvider :theme="theme">
     <RouterView />
-    <Message ref="message" @close="onClose" />
+    <Message ref="messageRef" />
+    <Modal ref="modalRef" />
   </ConfigProvider>
 </template>
