@@ -92,7 +92,7 @@ export function getUrlParams(url?: string): object {
   const params: any = {}
   queryString.split('&').forEach((param) => {
     const [key, value] = param.split('=')
-    params[key] = decodeURIComponent(value)
+    params[key as string] = decodeURIComponent(value || '')
   })
 
   return params
