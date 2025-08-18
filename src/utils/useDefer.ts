@@ -11,7 +11,8 @@ import { ref } from 'vue'
 const totalFrame = ref<number>(0)
 const frame = ref<number>(0)
 function updateFrame() {
-  if (frame.value < totalFrame.value) { // 终止调用
+  if (frame.value < totalFrame.value) {
+    // 终止调用
     frame.value++
     requestAnimationFrame(updateFrame)
   }
@@ -19,7 +20,7 @@ function updateFrame() {
 updateFrame()
 export function useDefer(total: number) {
   totalFrame.value = total
-  return function(n: number) {
+  return function (n: number) {
     return frame.value >= n
   }
 }
