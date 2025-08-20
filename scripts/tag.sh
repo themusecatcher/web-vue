@@ -19,7 +19,7 @@ fi
 echo BUILD SUCCESS 😁😁😁
 
 # git add .
-# git commit -m "update $version"
+# git commit -m "feat: update $version"
 # git push
 
 # git tag -a $version -m $version
