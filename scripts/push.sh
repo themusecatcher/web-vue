@@ -10,7 +10,7 @@ commitDesc=$1
 git add .
 
 if [ -z "$commitDesc" ]; then
-  git commit -m 'update'
+  git commit -m 'feat: update project'
 else
   git commit -m "$commitDesc"
 fi
