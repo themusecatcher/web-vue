@@ -1,10 +1,15 @@
-<script setup lang="ts">
-function onClick() {
-  window.$message.success('点击了按钮')
-}
-</script>
 <template>
-  <div style="margin: 60px 120px">
-    <Button @click="onClick">按钮</Button>
-  </div>
+  <Flex style="padding: 60px" justify="center">
+    <GradientText
+      :size="36"
+      :weight="500"
+      :gradient="{
+        deg: '90deg',
+        from: '#09c8ce',
+        to: '#eb2f96'
+      }"
+    >
+      欢迎使用 web-vue 模板项目
+    </GradientText>
+  </Flex>
 </template>
