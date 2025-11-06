@@ -87,10 +87,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         // https://cn.rollupjs.org/configuration-options/#output-manualchunks
         output: {
           // manualChunks: {
-          //   'group-user': [
-          //     './src/UserDetails',
-          //     './src/UserDashboard',
-          //     './src/UserProfileEdit'
+          //   'group-user': [ // 将以下相对路径指向的文件及其依赖打包到名为 group-user 的代码块中
+          //     './src/views/UserDetails',
+          //     './src/views/UserDashboard',
+          //     './src/views/UserProfileEdit'
           //   ]
           // }
           manualChunks: (id: string) => {
