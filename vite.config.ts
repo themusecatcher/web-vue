@@ -74,7 +74,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             retain side effects from function arguments after dropping the function
             call then use pure_funcs instead
           */
-          // 如果在调试控制台中打印了某个对象，则调试控制台就持有了对该对象的引用，该对象就无法被回收了，会导致内存泄露
+          /**
+           * 如果在调试控制台中打印了某个对象，则调试控制台就持有了对该对象的引用，该对象就无法被回收了，会导致内存泄露
+           * 经过验证，只有 devtools 打开时，console 打印才会引起内存泄漏的，如果不打开控制台，console 是不会引起内存变化的。
+           */
           drop_console: isBuild, // 生产环境时移除 console
           drop_debugger: isBuild
         },
