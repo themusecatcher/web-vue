@@ -79,7 +79,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
            * 经过验证，只有 devtools 打开时，console 打印才会引起内存泄漏的，如果不打开控制台，console 是不会引起内存变化的。
            */
           drop_console: isBuild, // 生产环境时移除 console
-          drop_debugger: isBuild
+          drop_debugger: isBuild // 默认 true
         },
         format: {
           comments: isBuild // 生产环境时删除注释 comments
