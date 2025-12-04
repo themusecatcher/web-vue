@@ -1,6 +1,3 @@
-<script setup lang="ts">
-import { Flex, GradientText } from 'vue-amazing-ui'
-</script>
 <template>
   <Flex style="padding: 60px" justify="center">
     <GradientText
