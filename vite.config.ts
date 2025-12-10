@@ -37,6 +37,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         apis: fileURLToPath(new URL('./src/apis', import.meta.url)),
         images: fileURLToPath(new URL('./src/assets/images', import.meta.url)),
         less: fileURLToPath(new URL('./src/assets/less', import.meta.url)),
+        sass: fileURLToPath(new URL('./src/assets/sass', import.meta.url)),
         components: fileURLToPath(new URL('./src/components', import.meta.url)),
         enums: fileURLToPath(new URL('./src/enums', import.meta.url)),
         hooks: fileURLToPath(new URL('./src/hooks', import.meta.url)),
@@ -51,9 +52,16 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           modifyVars: {
             // 或者 globalVars
             // `theme-color` is global variables fields name
-            'theme-color': '#ff6900'
+            // 'theme-color': '#ff6900'
           },
-          javascriptEnabled: true
+          javascriptEnabled: true,
+          additionalData: `@import "less/global.less";`
+        },
+        scss: {
+          additionalData: `
+            @use "sass" as *;
+            @import "sass/global.scss";
+          `
         }
       }
     },

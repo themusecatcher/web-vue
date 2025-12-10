@@ -54,6 +54,7 @@
     "prettier": "^3.6.2",
     "rimraf": "^6.1.0",
     "rollup-plugin-visualizer": "^6.0.5",
+    "sass-embedded": "^1.95.1",
     "terser": "^5.44.1",
     "typescript": "~5.9.3",
     "unplugin-auto-import": "^20.2.0",

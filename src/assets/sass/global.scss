@@ -1,6 +1,6 @@
 // 全局样式文件 (less 和 sass 视具体情况二选一使用即可)
 
-@theme-color: #1677ff;
+$theme-color: #1677ff;
 
 *,
 *::before,
@@ -28,7 +28,7 @@ body {
     sans-serif;
 }
 a {
-  color: @theme-color;
+  color: $theme-color;
   text-decoration: none;
   background-color: transparent;
   outline: none;
@@ -36,6 +36,10 @@ a {
   &:hover {
     color: #4096ff;
   }
+}
+img {
+  display: inline-block;
+  vertical-align: bottom;
 }
 .mt10 {
   margin-top: 10px;

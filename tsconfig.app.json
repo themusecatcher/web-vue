@@ -31,6 +31,7 @@
       "apis/*": ["src/apis/*"],
       "images/*": ["src/assets/images/*"],
       "less/*": ["src/assets/less/*"],
+      "sass/*": ["src/assets/sass/*"],
       "components/*": ["src/components/*"],
       "enums/*": ["src/enums/*"],
       "hooks/*": ["src/hooks/*"],
