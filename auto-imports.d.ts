@@ -23,6 +23,7 @@ declare global {
   const defineStore: typeof import('pinia').defineStore
   const devMode: typeof import('./src/utils/env').devMode
   const downloadByUrl: typeof import('./src/utils/downloadFile').downloadByUrl
+  const downloadFile: typeof import('./src/utils/downloadFile').downloadFile
   const effectScope: typeof import('vue').effectScope
   const error: typeof import('./src/utils/log').error
   const formatDateMs: typeof import('./src/utils/dateUtils').formatDateMs
@@ -123,6 +124,7 @@ declare global {
   const toRef: typeof import('vue').toRef
   const toRefs: typeof import('vue').toRefs
   const toValue: typeof import('vue').toValue
+  const triggerDownloadInBrowser: typeof import('./src/utils/downloadFile').triggerDownloadInBrowser
   const triggerRef: typeof import('vue').triggerRef
   const unref: typeof import('vue').unref
   const useAttrs: typeof import('vue').useAttrs

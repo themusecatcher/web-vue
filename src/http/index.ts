@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import { VAxios } from './Axios'
+import { VAxios } from './axios'
 import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform'
 import axios from 'axios'
 import { checkStatus } from './checkStatus'
@@ -11,15 +11,12 @@ import { RequestEnum, ContentTypeEnum, ConfigEnum } from 'enums/httpEnum'
 // import { encryptData } from 'utils/signature/encrypt'
 const globSetting = useGlobSetting()
 const urlPrefix = globSetting.urlPrefix || ''
-console.log('urlPrefix', urlPrefix)
 /**
  * @description: 数据处理，方便区分多种处理方式
  */
 const transform: AxiosTransform = {
   // 请求之前处理 config
   beforeRequestHook: (config, options) => {
-    console.log('before config', config)
-    console.log('before options', options)
     // if (config.method === 'get') {
     //   config.params = encryptData(config)
     // } else {
@@ -78,8 +75,10 @@ const transform: AxiosTransform = {
     // console.log('options', options)
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
-      config.headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token
-      config.headers[ConfigEnum.TOKEN] = token
+      ;(config.headers as Recordable).Authorization = options.authenticationScheme
+        ? `${options.authenticationScheme} ${token}`
+        : token
+      ;(config.headers as Recordable)[ConfigEnum.TOKEN] = token
     }
     return config
   },

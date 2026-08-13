@@ -1,5 +1,5 @@
-import { AxiosRequestConfig } from 'axios'
-import { AxiosTransform } from './axiosTransform'
+import type { AxiosRequestConfig } from 'axios'
+import type { AxiosTransform } from './axiosTransform'
 
 export interface CreateAxiosOptions extends AxiosRequestConfig {
   transform?: AxiosTransform

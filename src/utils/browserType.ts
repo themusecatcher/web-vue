@@ -1,7 +1,6 @@
 /**
  * @description 获取用户浏览器版本及系统信息
- * @param {string='zh-cn' | 'en'} lang 返回中文的信息还是英文的
- * @constructor
+ * @param lang 返回中文的信息还是英文的，可选值 'zh-cn' | 'en'，默认 'en'
  */
 export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
   // 权重：系统 + 系统版本 > 平台 > 内核 + 载体 + 内核版本 + 载体版本 > 外壳 + 外壳版本
@@ -52,20 +51,17 @@ export default function BrowserType(lang: 'zh-cn' | 'en' = 'en') {
     platform = 'mobile' // 移动端
   }
   // 内核和载体
+  const webkitSupporter =
+    new Map([
+      // webkit内核
+      [testUa(/safari/g), 'safari'], // safari浏览器
+      [testUa(/chrome/g), 'chrome'], // chrome浏览器
+      [testUa(/opr/g), 'opera'], // opera浏览器
+      [testUa(/edge/g), 'edge'] // edge浏览器
+    ]).get(true) || 'unknow'
+
   const [engine = 'unknow', supporter = 'unknow'] = new Map([
-    [
-      testUa(/applewebkit/g),
-      [
-        'webkit',
-        new Map([
-          // webkit内核
-          [testUa(/safari/g), 'safari'], // safari浏览器
-          [testUa(/chrome/g), 'chrome'], // chrome浏览器
-          [testUa(/opr/g), 'opera'], // opera浏览器
-          [testUa(/edge/g), 'edge'] // edge浏览器
-        ]).get(true)
-      ] || 'unknow'
-    ], // [webkit内核, xxx浏览器]
+    [testUa(/applewebkit/g), ['webkit', webkitSupporter]], // [webkit内核, xxx浏览器]
     [testUa(/gecko/g) && testUa(/firefox/g), ['gecko', 'firefox']], // [gecko内核,firefox浏览器]
     [testUa(/presto/g), ['presto', 'opera']], // [presto内核,opera浏览器]
     [testUa(/trident|compatible|msie/g), ['trident', 'iexplore']] // [trident内核,iexplore浏览器]

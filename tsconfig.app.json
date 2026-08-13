@@ -19,25 +19,26 @@
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "moduleResolution": "node",
-    "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "removeComments": true,
+    "isolatedModules": true,
     "typeRoots": [
       "./node_modules/@types/",
       "./types"
     ],
     "paths": {
-      "@/*": ["src/*"],
-      "#/*": ["types/*"],
-      "apis/*": ["src/apis/*"],
-      "images/*": ["src/assets/images/*"],
-      "less/*": ["src/assets/less/*"],
-      "sass/*": ["src/assets/sass/*"],
-      "components/*": ["src/components/*"],
-      "enums/*": ["src/enums/*"],
-      "hooks/*": ["src/hooks/*"],
-      "http/*": ["src/http/*"],
-      "stores/*": ["src/stores/*"],
-      "utils/*": ["src/utils/*"]
+      "@/*": ["./src/*"],
+      "#/*": ["./types/*"],
+      "apis/*": ["./src/apis/*"],
+      "images/*": ["./src/assets/images/*"],
+      "less/*": ["./src/assets/less/*"],
+      "sass/*": ["./src/assets/sass/*"],
+      "components/*": ["./src/components/*"],
+      "enums/*": ["./src/enums/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "http/*": ["./src/http/*"],
+      "stores/*": ["./src/stores/*"],
+      "utils/*": ["./src/utils/*"]
     }
   }
 }

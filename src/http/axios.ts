@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios'
+import type { AxiosRequestConfig, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 
 import axios from 'axios'
 import { AxiosCanceler } from './axiosCancel'
@@ -51,7 +51,6 @@ export class VAxios {
    * @description:  创建axios实例
    */
   private createAxios(config: CreateAxiosOptions): void {
-    console.log(config)
     this.axiosInstance = axios.create(config)
   }
 
@@ -122,7 +121,7 @@ export class VAxios {
     }
 
     //这里重新 赋值成最新的配置
-    // @ts-ignore
+    // @ts-expect-error 追加自定义 requestOptions 属性
     conf.requestOptions = opt
     // console.log(opt)
     return new Promise((resolve, reject) => {
@@ -165,15 +164,14 @@ export class VAxios {
     const axiosCanceler = new AxiosCanceler()
 
     // 请求拦截器配置处理
-    this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
-      const {
-        headers: { ignoreCancelToken }
-      } = config
+    this.axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+      const ignoreCancelToken = (config.headers as Recordable)?.ignoreCancelToken
       const ignoreCancel =
         ignoreCancelToken !== undefined ? ignoreCancelToken : this.options.requestOptions?.ignoreCancelToken
 
       !ignoreCancel && axiosCanceler.addPending(config)
       if (requestInterceptors && isFunction(requestInterceptors)) {
+        // @ts-expect-error: axios interceptor type mismatch between AxiosRequestConfig and InternalAxiosRequestConfig
         config = requestInterceptors(config, this.options)
       }
       return config

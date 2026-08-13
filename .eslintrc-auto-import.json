@@ -34,7 +34,7 @@
     "defineComponent": true,
     "defineStore": true,
     "devMode": true,
-    "downloadByUrl": true,
+    "downloadFile": true,
     "effectScope": true,
     "error": true,
     "formatDateMs": true,

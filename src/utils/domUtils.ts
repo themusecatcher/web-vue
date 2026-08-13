@@ -151,9 +151,9 @@ export function off(element: Element | HTMLElement | Document | Window, event: s
 
 /* istanbul ignore next */
 export function once(el: HTMLElement, event: string, fn: EventListener): void {
-  const listener = function (this: any, ...args: unknown[]) {
+  const listener: EventListener = function (this: any, ...args: unknown[]) {
     if (fn) {
-      fn.apply(this, args)
+      ;(fn as (...args: unknown[]) => void).apply(this, args)
     }
     off(el, event, listener)
   }

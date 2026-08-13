@@ -92,9 +92,9 @@ export class Storage {
   getCookie(name: string): string {
     const cookieArr = document.cookie.split('; ')
     for (let i = 0, length = cookieArr.length; i < length; i++) {
-      const kv = cookieArr[i].split('=')
-      if (kv[0] === this.getKey(name)) {
-        return kv[1]
+      const kv = cookieArr[i]?.split('=')
+      if (kv?.[0] === this.getKey(name)) {
+        return kv[1] ?? ''
       }
     }
     return ''

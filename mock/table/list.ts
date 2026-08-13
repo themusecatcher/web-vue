@@ -26,8 +26,9 @@ export default [
     url: '/api/table/list',
     timeout: 1000,
     method: 'get',
-    response: ({ query }) => {
-      const { page = 1, pageSize = 10 } = query
+    response: ({ query }: { query: Record<string, string> }) => {
+      const page = Number(query?.page) || 1
+      const pageSize = Number(query?.pageSize) || 10
       const list = tableList(pageSize)
       //并非真实，只是为了模拟搜索结果
       return resultSuccess({
