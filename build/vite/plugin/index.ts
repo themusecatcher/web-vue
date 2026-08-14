@@ -7,11 +7,12 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { VueAmazingUIResolver } from 'vue-amazing-ui'
 
-import { configCompressPlugin } from './compress'
-import { configCDNImportPlugin } from './cdn'
-import { configHtmlPlugin } from './html'
-import { configMockPlugin } from './mock'
-import { configVisualizerPlugin } from './visualizer'
+import { configCompressPlugin } from './compress.ts'
+import { configCDNImportPlugin } from './cdn.ts'
+import { configHtmlPlugin } from './html.ts'
+import { configInspectPlugin } from './inspect.ts'
+import { configMockPlugin } from './mock.ts'
+import { configVisualizerPlugin } from './visualizer.ts'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const {
@@ -19,6 +20,7 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
     VITE_BUILD_COMPRESS,
     VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE,
     VITE_USE_CDN,
+    VITE_ENABLE_INSPECT,
     VITE_ENABLE_ANALYZE
   } = viteEnv
 
@@ -79,8 +81,15 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
 
+  // vite-plugin-inspect（仅 dev 模式启用，防止误配置将调试插件带入生产构建）
+  if (VITE_ENABLE_INSPECT && !isBuild) {
+    vitePlugins.push(configInspectPlugin())
+  }
+
   // vite-plugin-mock
-  VITE_USE_MOCK && vitePlugins.push(configMockPlugin())
+  if (VITE_USE_MOCK) {
+    vitePlugins.push(configMockPlugin())
+  }
 
   // rollup-plugin-visualizer
   if (VITE_ENABLE_ANALYZE) {

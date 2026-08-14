@@ -1,9 +1,9 @@
 // #!/usr/bin/env node
 
-import { runBuildConfig } from './buildConf'
+import { runBuildConfig } from './buildConf.ts'
 import chalk from 'chalk'
 
-import pkg from '../../package.json'
+import pkg from '../../package.json' with { type: 'json' }
 
 export const runBuild = async () => {
   try {

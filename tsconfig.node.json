@@ -18,6 +18,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true, // 允许导入时携带 .ts 扩展名（消除 Vite 8 configLoader 的无扩展名导入警告），要求 noEmit 已满足
     "types": ["node"]
   }
 }

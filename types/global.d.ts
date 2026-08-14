@@ -1,4 +1,11 @@
-import type { ComponentRenderProxy, VNode, VNodeChild, ComponentPublicInstance, FunctionalComponent, PropType as VuePropType } from 'vue'
+import type {
+  ComponentRenderProxy,
+  VNode,
+  VNodeChild,
+  ComponentPublicInstance,
+  FunctionalComponent,
+  PropType as VuePropType
+} from 'vue'
 
 declare global {
   const __APP_INFO__: {
@@ -58,10 +65,11 @@ declare global {
     VITE_GLOB_APP_TITLE: string
     VITE_GLOB_APP_SHORT_NAME: string
     VITE_USE_CDN: boolean
-    VITE_DROP_CONSOLE: boolean
+    // 注：运行时支持逗号组合（如 'gzip,brotli' 同时输出两种压缩产物），此处类型仅约束常规单值写法
     VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none'
     VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean
     VITE_ENABLE_ANALYZE: boolean
+    VITE_ENABLE_INSPECT: boolean
     VITE_LEGACY: boolean
     VITE_USE_IMAGEMIN: boolean
     VITE_GENERATE_UI: string
