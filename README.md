@@ -1,6 +1,6 @@
 # web-vue
 
-_基于最新技术栈 `vue@^3.5.24`+ `typescript@^5.9.3` + `vite@^8.2.1` + `sass/less` 开发的模板项目_
+_基于 `vue@^3.5.24`+ `typescript@^5.9.3` + `vite@^8.2.1` + `sass/less` 开发的模板项目_
 
 ## References
 

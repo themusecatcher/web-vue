@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "author": "theMuseCatcher",
-  "description": "基于 Vue3 + TypeScript + Vite + Less 开发的模板项目",
+  "description": "基于 Vue3 + TypeScript + Vite + Sass/Less 开发的模板项目",
   "scripts": {
     "dev": "vite",
     "push": "sh scripts/push.sh",
