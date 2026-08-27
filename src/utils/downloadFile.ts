@@ -51,13 +51,6 @@ type DownloadStrategy = 'auto' | 'anchor' | 'iframe'
 
 interface DownloadOptions {
   /**
-   * 期望的下载文件名
-   * - anchor 策略：纯前端生效，任意服务端都支持
-   * - iframe 策略：通过 response-content-disposition 参数传递给服务端，
-   *   仅 COS/OSS 等对象存储会识别并改写响应头，普通服务端会忽略该参数
-   */
-  fileName?: string
-  /**
    * 打开方式，仅 anchor 策略生效；且仅在 download 属性未真正生效
    * （老浏览器降级 window.open）时才起作用
    */
@@ -181,21 +174,23 @@ function checkIframeError(iframe: HTMLIFrameElement): void {
  * 判断下载成败，故返回值不携带成败信息，触发成功即 resolve。
  *
  * @param url 下载地址，支持绝对 URL 与同源相对路径
- * @param options 下载配置
+ * @param fileName 期望的下载文件名；anchor 策略纯前端生效，iframe 策略通过
+ *                 response-content-disposition 参数传递给服务端（仅 COS/OSS 识别）
+ * @param options 下载配置（打开方式、下载策略）
  * @returns Promise<void>，resolve 表示已触发下载；URL 非法时 reject
  *
  * @example
  * // 自动分流：同源走 anchor，跨域走 iframe
  * downloadFile('https://example.com/file.pdf')
  *
- * // 同源相对路径
- * downloadFile('/api/export?id=1')
+ * // 同源相对路径 + 自定义文件名
+ * downloadFile('/api/export?id=1', '导出.xlsx')
  *
  * // 强制 iframe 策略（如 COS 对象存储地址 + 自定义文件名）
- * downloadFile(url, { fileName: '附件.pdf', strategy: 'iframe' })
+ * downloadFile(url, '附件.pdf', { strategy: 'iframe' })
  */
-export function downloadFile(url: string, options: DownloadOptions = {}): Promise<void> {
-  const { fileName, target = '_blank', strategy = 'auto' } = options
+export function downloadFile(url: string, fileName?: string, options: DownloadOptions = {}): Promise<void> {
+  const { target = '_blank', strategy = 'auto' } = options
 
   // 以当前页面地址为 base 解析，兼容同源相对路径；URL 非法时提前 reject
   let parsedUrl: URL
