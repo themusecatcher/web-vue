@@ -1,9 +1,12 @@
 {
   "globals": {
+    "AnimationFrameID": true,
     "Component": true,
     "ComponentPublicInstance": true,
     "ComputedRef": true,
     "DirectiveBinding": true,
+    "DownloadOptions": true,
+    "DownloadStrategy": true,
     "EffectScope": true,
     "ExtractDefaultPropTypes": true,
     "ExtractPropTypes": true,

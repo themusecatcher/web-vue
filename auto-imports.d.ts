@@ -175,6 +175,12 @@ declare global {
   export type { ViewportOffsetResult } from './src/utils/domUtils'
   import('./src/utils/domUtils')
   // @ts-ignore
+  export type { DownloadStrategy, DownloadOptions } from './src/utils/downloadFile'
+  import('./src/utils/downloadFile')
+  // @ts-ignore
+  export type { AnimationFrameID } from './src/utils/index'
+  import('./src/utils/index')
+  // @ts-ignore
   export type { Storage } from './src/utils/storage'
   import('./src/utils/storage')
 }
