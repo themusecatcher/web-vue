@@ -3,3 +3,5 @@ allowBuilds:
   core-js: true
   esbuild: true
   vue-demi: true
+minimumReleaseAgeExclude:
+  - vue-amazing-ui@2.7.0
