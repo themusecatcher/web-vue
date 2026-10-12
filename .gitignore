@@ -28,6 +28,11 @@ coverage
 *.sln
 *.sw?
 
+# unplugin 自动生成的类型声明文件（auto-import / vue-components 每次 dev/build 重新生成）
+/auto-imports.d.ts
 /components.d.ts
 
 *.tsbuildinfo
+
+# 构建分析产物（rollup-plugin-visualizer 输出，由 pnpm analyze 生成）
+stats.html
