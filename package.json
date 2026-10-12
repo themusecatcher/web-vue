@@ -11,6 +11,7 @@
     "tag": "sh scripts/tag.sh",
     "build": "run-s format clean build-only",
     "format": "prettier --write src/",
+    "format:check": "prettier --check src/",
     "clean": "rimraf ./dist",
     "type-check": "vue-tsc --build --force",
     "build-only": "vite build && esno ./build/script/postBuild.ts",
@@ -18,7 +19,9 @@
     "analyze": "vite build --mode analyze",
     "lint": "eslint . --fix",
     "lint:check": "eslint .",
-    "check": "run-s lint:check type-check",
+    "check": "run-s lint:check format:check type-check",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "prepare": "husky"
   },
   "dependencies": {

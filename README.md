@@ -55,3 +55,25 @@ pnpm analyze
 ```sh
 pnpm lint
 ```
+
+## Type Check
+
+```sh
+pnpm type-check
+```
+
+## Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
+pnpm test
+```
+
+Use `pnpm test:watch` for watch mode. Test files live in `tests/**/*.spec.ts`.
+
+## Run All Checks
+
+Lint, format and type checks in one pass:
+
+```sh
+pnpm check
+```

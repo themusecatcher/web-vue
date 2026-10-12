@@ -1,0 +1,19 @@
+# 构建产物（虽已在 .gitignore，此处显式声明，避免依赖 Prettier 的 gitignore 回退行为）
+dist/
+dist-ssr/
+
+# 测试覆盖率
+coverage/
+
+# 依赖目录
+node_modules/
+
+# 锁文件：由 pnpm 生成，格式化会重排其结构，禁止纳入
+pnpm-lock.yaml
+
+# unplugin 自动生成的类型声明文件，内容随扫描时序抖动
+auto-imports.d.ts
+components.d.ts
+
+# 构建分析产物（rollup-plugin-visualizer 输出，由 pnpm analyze 生成）
+stats.html
