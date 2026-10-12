@@ -1,7 +1,10 @@
+# 允许执行构建脚本的依赖白名单
 allowBuilds:
   '@parcel/watcher': true
   core-js: true
   esbuild: true
   vue-demi: true
+# 豁免 minimumReleaseAge 发布时长检查的包：vue-amazing-ui 为自研组件库，
+# 发版后需立即安装联调；不写 @版本 = 豁免所有版本，升级无需维护本文件
 minimumReleaseAgeExclude:
-  - vue-amazing-ui@2.7.0
+  - vue-amazing-ui

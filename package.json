@@ -31,7 +31,7 @@
     "pinia": "^3.0.4",
     "qs": "^6.14.0",
     "vue": "^3.5.24",
-    "vue-amazing-ui": "2.7.0",
+    "vue-amazing-ui": "^2.13.1",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
@@ -44,6 +44,7 @@
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.8.1",
     "chalk": "^5.6.2",
     "dotenv": "^17.2.3",
@@ -52,6 +53,7 @@
     "eslint-plugin-vue": "^10.5.1",
     "esno": "^4.8.0",
     "fs-extra": "^11.3.2",
+    "happy-dom": "^20.14.6",
     "husky": "^9.1.7",
     "less": "^4.4.2",
     "lint-staged": "^16.2.6",
@@ -72,6 +74,7 @@
     "vite-plugin-mock": "^3.0.2",
     "vite-plugin-vue-devtools": "^8.2.1",
     "vite-svg-loader": "^5.1.0",
+    "vitest": "4.1.11",
     "vue-tsc": "^3.1.4"
   },
   "keywords": [
@@ -84,9 +87,10 @@
     "VueAmazingUI",
     "Out-of-the-box"
   ],
+  "packageManager": "pnpm@11.24.0",
   "engines": {
-    "node": ">=20.19.0",
-    "pnpm": ">=9"
+    "node": "^20.19.0 || >=22.12.0",
+    "pnpm": ">=11"
   },
   "browserslist": [
     "> 1%",
@@ -108,6 +112,9 @@
     "*.md": [
       "prettier --write --parser markdown --prose-wrap never",
       "eslint --fix"
+    ],
+    "*.json": [
+      "prettier --write"
     ]
   }
 }
