@@ -4,6 +4,9 @@ import type { CSSProperties, VNode } from 'vue'
 import { CloseCircleFilled, ExclamationCircleFilled } from '@ant-design/icons-vue'
 import { format } from 'date-fns'
 import { Button, Switch } from 'vue-amazing-ui'
+// 显式值导入不经过 VueAmazingUIResolver，不会自动注入组件样式，需手动引入样式入口
+import 'vue-amazing-ui/es/button/style'
+import 'vue-amazing-ui/es/switch/style'
 import { createDiscreteApi, useDialog, useMessage } from 'vue-amazing-ui'
 import type { DialogApi, DialogReactive, DialogUpdate, DiscreteApiInstance } from 'vue-amazing-ui'
 // 以下组件在渲染函数（h）中作编程式引用，需要组件值：web-vue 未做全局注册，故显式按需引入

@@ -2,6 +2,10 @@
 import { h, onBeforeUnmount, onMounted, ref } from 'vue'
 import { CloudFilled, FireFilled, SoundFilled, ExclamationCircleFilled } from '@ant-design/icons-vue'
 import { Button, Select, Tooltip } from 'vue-amazing-ui'
+// 显式值导入不经过 VueAmazingUIResolver，不会自动注入组件样式，需手动引入样式入口
+import 'vue-amazing-ui/es/button/style'
+import 'vue-amazing-ui/es/select/style'
+import 'vue-amazing-ui/es/tooltip/style'
 import { createDiscreteApi, useMessage, useNotification } from 'vue-amazing-ui'
 import type {
   DiscreteApiInstance,
