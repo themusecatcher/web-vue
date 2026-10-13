@@ -63,7 +63,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         scss: {
           additionalData: `
             @use "sass" as *;
-            @import "sass/global.scss";
+            @use "sass/global.scss" as *;
           `
         }
       }

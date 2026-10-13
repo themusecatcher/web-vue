@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import type { MessageApi, ModalApi } from 'vue-amazing-ui'
-const theme = ref({
+import { computed } from 'vue'
+import type { ConfigProviderTheme, MessageApi, ModalApi } from 'vue-amazing-ui'
+import { useThemeStore } from '@/stores/theme'
+// 主题色取自 theme store，侧边栏 ColorPicker 修改后全站组件配色实时联动
+const themeStore = useThemeStore()
+const theme = computed<ConfigProviderTheme>(() => ({
   common: {
-    primaryColor: '#ff6900'
+    primaryColor: themeStore.primaryColor
   }
-})
+}))
 // vue-amazing-ui@2.7.0 起 Message / Modal 改为 Provider 架构（命令式方法不再挂组件 ref）：
 // <MessageProvider> / <ModalProvider> 挂载完成后通过 ready 事件回传 api（组件树内则用 useMessage() / useModal()），
 // 此处挂到 window 供 axios 拦截器等 setup 外场景复用同一实例
@@ -21,10 +25,16 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <ConfigProvider :theme="theme">
-    <MessageProvider @ready="onMessageReady">
-      <ModalProvider @ready="onModalReady">
-        <RouterView />
-      </ModalProvider>
-    </MessageProvider>
+    <LoadingBarProvider>
+      <MessageProvider @ready="onMessageReady">
+        <ModalProvider @ready="onModalReady">
+          <DialogProvider>
+            <NotificationProvider>
+              <RouterView />
+            </NotificationProvider>
+          </DialogProvider>
+        </ModalProvider>
+      </MessageProvider>
+    </LoadingBarProvider>
   </ConfigProvider>
 </template>

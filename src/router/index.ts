@@ -1,6 +1,42 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 // import GlobalLayout from '@/layouts/GlobalLayout.vue'
+
+/*
+  vue-amazing-ui 组件演示路由（编译时收集，新增演示页无需手写路由）
+  约定：src/views/amazing-ui/<kebab-case>/Index.vue 为演示页，index.ts 默认导出路由 meta
+  路由 path 由目录推导：/amazing-ui/button、/amazing-ui/config-provider；
+  name 转 PascalCase（短横线分段各自首字母大写）：AmazingUIButton、AmazingUIConfigProvider
+*/
+const demoComponents = import.meta.glob('../views/amazing-ui/*/Index.vue')
+const demoMetas = import.meta.glob('../views/amazing-ui/*/index.ts', {
+  eager: true, // 直接引入模块
+  import: 'default' // 加载默认导出
+})
+const amazingRoutes: RouteRecordRaw[] = Object.entries(demoMetas).map(([path, meta]) => {
+  const componentPath = path.replace('index.ts', 'Index.vue') // 打包过后目录结构不存在，不能用该变量直接作为组件导入路径
+  // 去掉前导斜杠：子路由 path 必须是相对路径，若以 '/' 开头会被视为绝对路径、丢失 /amazing-ui 父级前缀
+  const routePath = path.replace('../views/amazing-ui', '').replace('/index.ts', '').replace(/^\//, '') // button、config-provider
+  // 路径转 PascalCase 作为路由 name（短横线分段各自首字母大写，如 config-provider → ConfigProvider），
+  // 不加前缀，演示页标题 {{ $route.name }} 直接展示组件名；filter(Boolean) 去掉多余斜杠导致的空字符串
+  const name = routePath
+    .split('/')
+    .filter(Boolean)
+    .map((word) =>
+      word
+        .split('-')
+        .filter(Boolean)
+        .map((part) => `${part[0]?.toUpperCase() ?? ''}${part.slice(1)}`)
+        .join('')
+    )
+    .join('')
+  return {
+    path: routePath,
+    name,
+    meta,
+    component: demoComponents[componentPath]
+  } as RouteRecordRaw
+})
 
 export const routes = [
   {
@@ -8,6 +44,13 @@ export const routes = [
     name: 'home',
     meta: { title: '首页' },
     component: HomeView
+  },
+  {
+    path: '/amazing-ui',
+    name: 'AmazingUI',
+    meta: { title: '组件库演示' },
+    component: () => import('@/views/amazing-ui/Index.vue'),
+    children: amazingRoutes
   },
   // {
   //   path: '/about',

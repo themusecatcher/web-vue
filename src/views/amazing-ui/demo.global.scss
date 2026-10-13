@@ -1,0 +1,84 @@
+/*
+ * vue-amazing-ui 演示区全局样式
+ *
+ * 由 amazing-ui/Index.vue 以非 scoped 方式引入，仅在演示区路由挂载期间生效。
+ * 内容对齐组件库演示工程（vue-amazing-ui/src/assets/less/global.less）的演示约定：
+ * h1 渐变标题 + mt/mb/ml 间距工具类 + 演示文本工具类。
+ */
+
+// 演示区标题渐变（与首页 GradientText 配色一致），供 h1 与侧边栏标题共用
+:root {
+  --demo-title-gradient: linear-gradient(to right, #09c8ce, #eb2f96);
+}
+
+h1 {
+  display: inline-block;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+  background-image: var(--demo-title-gradient);
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt30 {
+  margin-top: 30px;
+}
+
+.mt150 {
+  margin-top: 150px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mb30 {
+  margin-bottom: 30px;
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+
+.ml60 {
+  margin-left: 60px;
+}
+
+.ml120 {
+  margin-left: 120px;
+}
+
+.mr20 {
+  margin-right: 20px;
+}
+
+.mr30 {
+  margin-right: 30px;
+}
+
+.m-list {
+  margin-top: 10px;
+  margin-left: 16px;
+  font-size: 20px;
+}
+
+.u-file {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.u-tip {
+  font-size: 18px;
+  color: #333;
+}
+
+.u-intro {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}

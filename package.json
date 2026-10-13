@@ -25,6 +25,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
     "@vueuse/core": "^14.0.0",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.13.2",
