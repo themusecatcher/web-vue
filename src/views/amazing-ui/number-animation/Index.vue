@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { NumberAnimation } from 'vue-amazing-ui'
+import type { NumberAnimation } from 'vue-amazing-ui'
 import { TransitionPresets } from '@vueuse/core'
 import type { CubicBezierPoints } from '@vueuse/core'
 import type { NumberAnimationEasingPreset, RadioOption, SelectOption } from 'vue-amazing-ui'

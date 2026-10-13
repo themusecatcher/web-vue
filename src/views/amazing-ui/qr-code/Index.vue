@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref, h } from 'vue'
-import { QRCode } from 'vue-amazing-ui'
-import type { QRCodeProps } from 'vue-amazing-ui'
+import type { QRCode, QRCodeProps } from 'vue-amazing-ui'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons-vue'
 const qrcodeRef = ref<InstanceType<typeof QRCode> | null>(null)
 const size = ref(160)
@@ -55,7 +54,7 @@ const dowloadQRCode = async () => {
     </Space>
     <h2 class="mt30 mb10">下载二维码</h2>
     <Space vertical>
-      <QRCode ref="qrcodeRef" />
+      <QRCode ref="qrcodeRef" value="https://themusecatcher.blog.csdn.net" />
       <Button type="primary" @click="dowloadQRCode">Downlaod</Button>
     </Space>
     <h2 class="mt30 mb10">气泡卡片二维码</h2>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { NumberAnimation } from 'vue-amazing-ui'
+import type { NumberAnimation } from 'vue-amazing-ui'
 import { LikeOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons-vue'
 const defaultNumsRef = ref<InstanceType<typeof NumberAnimation> | null>(null)
 const tabularNumsRef = ref<InstanceType<typeof NumberAnimation> | null>(null)

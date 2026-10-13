@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { TextScroll } from 'vue-amazing-ui'
+import type { TextScroll } from 'vue-amazing-ui'
 import type { TextScrollItem } from 'vue-amazing-ui'
 const scrollItems = ref<TextScrollItem[]>([
   {
