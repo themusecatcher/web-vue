@@ -28,9 +28,12 @@ coverage
 *.sln
 *.sw?
 
-# unplugin 自动生成的类型声明文件（auto-import / vue-components 每次 dev/build 重新生成）
-/auto-imports.d.ts
-/components.d.ts
+# 注意：auto-imports.d.ts / components.d.ts 虽由 unplugin 在 dev/build 时生成，但必须纳入版本控制：
+# - auto-imports.d.ts：源码依赖其全局声明（App.vue 的 onBeforeUnmount、stores 的 defineStore/ref 等），
+#   不入库会导致全新克隆执行 pnpm type-check（含 husky pre-push）直接报 TS2304/TS2552；
+# - components.d.ts：提供 GlobalComponents 类型，模板内组件（RouterView、库组件等）的 props/事件才有类型检查（缺失不报错，但类型退化为 any）；
+# 实测同一份源码下 dev 启动与多次 build 后两文件字节不变，与 .eslintrc-auto-import.json 三者应同一次提交，避免中间态。
+# （.prettierignore 中仍保留对其的忽略：生成物不参与格式化）
 
 *.tsbuildinfo
 

@@ -11,7 +11,7 @@ node_modules/
 # 锁文件：由 pnpm 生成，格式化会重排其结构，禁止纳入
 pnpm-lock.yaml
 
-# unplugin 自动生成的类型声明文件，内容随扫描时序抖动
+# unplugin 自动生成的类型声明文件：随源码增删而变，但同一份源码下 dev/build 重复运行字节稳定（已实测）
 auto-imports.d.ts
 components.d.ts
 
