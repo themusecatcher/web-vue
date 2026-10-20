@@ -3,7 +3,8 @@
  *
  * 环境依赖要求：
  * - Vite ≤ 7.x：底层打包器为 Rollup，压缩器默认 esbuild
- *   （Vite 8 起已切换为 Rolldown，本配置中 rollupOptions 在 Vite 8 下为其弃用别名，行为兼容但会有弃用提示）
+ *   （Vite 8 起已切换为 Rolldown，本配置中 rollupOptions 在 Vite 8 下为其弃用别名，
+ *    v8.2.1 下仍可直接构建、无告警，但官方要求新代码改用 rolldownOptions）
  * - Terser：minify 使用 'terser' 时需安装 `pnpm i terser -D`
  * - Node ≥ 20.19.0（见 package.json engines）
  *
@@ -15,11 +16,15 @@
  * |---------------------------------------------|-----------------------------------------------------------|
  * | build.rollupOptions                         | build.rolldownOptions（旧名仅作别名保留，官方要求改用新名）|
  * | output.manualChunks（对象/函数形式）         | output.codeSplitting.groups                               |
- * | minify 默认 'esbuild'（快 terser 20-40 倍）  | minify 默认 'oxc'（快 terser 30-90 倍，'esbuild' 值已弃用）|
+ * | minify 默认 'esbuild'（快 terser 20-40 倍）  | minify 默认 'oxc'（快 terser 30-90 倍，'esbuild' 仍可作兜底）|
  * | terserOptions.compress.drop_console         | output.minify.compress.dropConsole（camelCase）            |
  * | terserOptions.compress.drop_debugger        | output.minify.compress.dropDebugger（camelCase）           |
- * | terserOptions.format.comments               | 无对应项（OXC 压缩时默认移除全部注释）                      |
+ * | terserOptions.format.comments               | output.comments（Vite 按 build.minify 自动推导，无需手写）  |
  * | output.entryFileNames / chunkFileNames / assetFileNames | 同名配置，迁至 rolldownOptions.output 下           |
+ *
+ * 补充：新版注释策略无需迁移 format.comments —— build.minify 为 'oxc' 时 Vite 已把
+ *       output.comments 的 jsdoc/legal/annotation 一并关闭；若需单独保留 license 注释，
+ *       在 output.minify 中用 codegen.legalComments（'none' | 'inline' | 'eof' | 'external'）指定。
  */
 import type { BuildOptions } from 'vite'
 
@@ -55,20 +60,33 @@ export function createOldBuildConfig(isBuild: boolean): BuildOptions {
     // 把组件按组分块（Vite 7 使用 Rollup，通过 rollupOptions.output.manualChunks 配置）
     rollupOptions: {
       output: {
-        // 打包优化，将不常变动的第三方依赖包统一放到 vendors 包中，这样每次打包时，vendors 包都保持不变，从而实现缓存
+        // 打包优化，将不常变动的第三方依赖包统一放到独立分包中，这样每次打包时这些包保持不变，从而实现缓存
+        // 与 config-new.ts 的 codeSplitting.groups 保持一致：只按「框架/工具」职责分组，其余依赖交给引用图
+        // （不做 node_modules 兜底合并，否则会把仅懒加载路由用到的库固定成首屏预加载包）
+        // 差异：manualChunks 只决定命中模块自身归哪个 chunk，不像 Rolldown 的 groups 那样连带吸入其独占依赖
         manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            return 'vendors'
+          if (!/[\\/]node_modules[\\/]/.test(id)) {
+            return undefined
           }
+          if (/[\\/]node_modules[\\/](?:vue|vue-router|pinia|@vueuse)[\\/]/.test(id)) {
+            return 'vue-vendor'
+          }
+          if (/[\\/]node_modules[\\/]ant-design-vue[\\/]/.test(id)) {
+            return 'antd-vendor'
+          }
+          if (/[\\/]node_modules[\\/](?:axios|lodash-es|qs|date-fns)[\\/]/.test(id)) {
+            return 'utils-vendor'
+          }
+          return undefined
         }
-        // 【未来 vendors 包膨胀时的细分配置（预置，按需启用）】当 vendors 包显著增大（如 > 500 kB）时，替换上方函数形式为下方对象形式：
+        // 【可选：按依赖细化分组】当某类依赖需要独立缓存分包时，可将上方函数形式替换为下方对象形式：
         // manualChunks: {
         //   'vue-vendor': ['vue', 'vue-router', 'pinia', '@vueuse/core'],
         //   'antd-vendor': ['ant-design-vue'],
-        //   'utils-vendor': ['axios', 'lodash-es', 'qs', 'date-fns'],
-        //   'ui-vendor': ['vue-amazing-ui']
+        //   'utils-vendor': ['axios', 'lodash-es', 'qs', 'date-fns']
         // }
-        // 如需按页面/视图手动分组，使用对象形式（注意：路径须与项目实际目录一致，示例中的 src/views 目录当前项目不存在）：
+        // 如需按页面/视图手动分组，使用对象形式（注意：路径须替换为项目实际视图文件，
+        // 当前 src/views 下仅有 HomeView.vue、exception/，下方示例的 UserDetails 等文件并不存在）：
         // manualChunks: { // 代码分割
         //   'group-user': [ // 将以下相对路径指向的文件及其依赖打包到名为 group-user 的代码块中
         //     './src/views/UserDetails',
