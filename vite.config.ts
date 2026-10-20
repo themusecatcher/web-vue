@@ -18,6 +18,7 @@ const __APP_INFO__ = {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
+  // 开发/构建时输出运行命令、mode 与代理配置，便于排查 env 解析问题
   console.log('command:', command)
   console.log('mode:', mode)
   const root = process.cwd()
@@ -57,14 +58,17 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             // `theme-color` is global variables fields name
             // 'theme-color': '#ff6900'
           },
-          javascriptEnabled: true,
-          additionalData: `@import "less/global.less";`
+          javascriptEnabled: true
+          // 不再经 additionalData 注入 global.less：该文件会产出 CSS（reset/body/a/工具类），
+          // 注入后被复制进每个 less 块——scoped 下整体失效（如 body[data-v-x] 永不命中），
+          // 非 scoped 下又变成多份全局重复。现由 main.ts 统一 import 一次，真正全局生效。
         },
         scss: {
-          additionalData: `
-            @use "sass" as *;
-            @use "sass/global.scss" as *;
-          `
+          // 仅注入不产出 CSS 的 mixins/utils（sass → src/assets/sass/_index.scss）
+          // 注意：src/assets/sass/global.scss 是全局样式的「二选一」scss 备选，当前项目走 less（见 src/main.ts 的 global.less），
+          // 它没有被任何文件 import，属有意为之——切勿在此处 additionalData 或 main.ts 里再引它，
+          // 否则会与 global.less 产生第二份全局重复（正是本次优化要消除的问题）
+          additionalData: `@use "sass" as *;`
         }
       }
     },
