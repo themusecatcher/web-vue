@@ -1,24 +1,18 @@
 import type { GlobConfig } from '#/config'
 
-import { warn } from 'utils/log'
 import { getAppEnvConfig } from 'utils/env'
 
 export const useGlobSetting = (): Readonly<GlobConfig> => {
+  // VITE_GLOB_APP_SHORT_NAME 的合法性校验统一由 getAppEnvConfig 负责（src/utils/env.ts），此处不再重复校验：
+  // 同一变量、同一正则，重复只会把同一次配置错误告警成两条
   const {
     VITE_GLOB_APP_TITLE,
     VITE_GLOB_API_URL,
     VITE_GLOB_APP_SHORT_NAME,
     VITE_GLOB_API_URL_PREFIX,
     VITE_GLOB_UPLOAD_URL,
-    VITE_GLOB_PROD_MOCK,
     VITE_GLOB_IMG_URL
   } = getAppEnvConfig()
-
-  if (!/[a-zA-Z\_]*/.test(VITE_GLOB_APP_SHORT_NAME)) {
-    warn(
-      `VITE_GLOB_APP_SHORT_NAME Variables can only be characters/underscores, please modify in the environment variables and re-running.`
-    )
-  }
 
   // Take global configuration
   const glob: Readonly<GlobConfig> = {
@@ -27,7 +21,6 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     shortName: VITE_GLOB_APP_SHORT_NAME,
     urlPrefix: VITE_GLOB_API_URL_PREFIX,
     uploadUrl: VITE_GLOB_UPLOAD_URL,
-    prodMock: VITE_GLOB_PROD_MOCK,
     imgUrl: VITE_GLOB_IMG_URL
   }
   return glob as Readonly<GlobConfig>
