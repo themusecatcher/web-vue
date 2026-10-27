@@ -1,7 +1,5 @@
 // 全局样式文件 (less 和 sass 视具体情况二选一使用即可)
 
-@theme-color: #1677ff;
-
 *,
 *::before,
 *::after {
@@ -11,8 +9,10 @@
 }
 body {
   min-height: 100vh;
-  background: #fff;
-  color: rgba(0, 0, 0, 0.88);
+  // 底色 / 文字色由 vue-amazing-ui 的 --va-* 变量驱动（主题见 src/stores/theme.ts），
+  // 逗号后的静态值仅作兜底：未挂 ConfigProvider 或单独使用本样式文件时仍可正常显示
+  background: var(--va-bg-container-color, #fff);
+  color: var(--va-text-color-1, rgba(0, 0, 0, 0.88));
   font-family:
     Inter,
     -apple-system,
@@ -28,13 +28,14 @@ body {
     sans-serif;
 }
 a {
-  color: @theme-color;
+  // 链接色跟随主题（组件库由 info 种子派生 --va-link-*），dark 模式自动换表
+  color: var(--va-link-color, #1677ff);
   text-decoration: none;
   background-color: transparent;
   outline: none;
   cursor: pointer;
   &:hover {
-    color: #4096ff;
+    color: var(--va-link-color-hover, #4096ff);
   }
 }
 img {
