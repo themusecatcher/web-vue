@@ -95,8 +95,20 @@ export function getViewportOffset(element: Element): ViewportOffsetResult {
   const pageYOffset = window.pageYOffset
 
   const box = getBoundingClientRect(element)
+  // 元素非法（不存在或非 Element）时 getBoundingClientRect 返回数字 0，
+  // 直接解构会得到全 undefined 字段导致计算结果为 NaN，此处降级返回全 0
+  if (typeof box === 'number') {
+    return {
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      rightIncludeBody: 0,
+      bottomIncludeBody: 0
+    }
+  }
 
-  const { left: retLeft, top: rectTop, width: rectWidth, height: rectHeight } = box as DOMRect
+  const { left: retLeft, top: rectTop, width: rectWidth, height: rectHeight } = box
 
   const scrollLeft = (pageXOffset || docScrollLeft) - (docClientLeft || 0)
   const scrollTop = (pageYOffset || docScrollTop) - (docClientTop || 0)

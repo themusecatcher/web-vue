@@ -204,11 +204,33 @@ describe('Storage - Cookie 操作', () => {
     expect(storage.getCookie('theme')).toBe('dark')
   })
 
+  it('ttl 为 null 时应写入有效会话级 cookie', () => {
+    // 拼出 "Max-Age=null" 会使整条 cookie 无效、读回为空，此处锁定 null 分支
+    const storage = new Storage('')
+    storage.setCookie('session', 'v', { ttlSeconds: null })
+    expect(storage.getCookie('session')).toBe('v')
+  })
+
   it('cookie 名同样拼接前缀且保持原样大小写', () => {
     const prefixed = new Storage('APP_')
     prefixed.setCookie('lang', 'zh')
     expect(document.cookie).toContain('APP_lang=zh')
     expect(prefixed.getCookie('lang')).toBe('zh')
+  })
+
+  it('cookie 值应编码写入：特殊字符不破坏结构且可原样往返', () => {
+    const storage = new Storage('')
+    storage.setCookie('complex', 'a=b; c,d 中文')
+    // 未编码的 ';' 会截断 cookie 并注入额外属性，编码后不应出现原始分隔符
+    expect(document.cookie).not.toContain('a=b; c,d')
+    expect(storage.getCookie('complex')).toBe('a=b; c,d 中文')
+  })
+
+  it('历史未编码写入的脏值应原样返回，不抛错', () => {
+    // 模拟旧版/外部写入的含孤立 '%' 的值：decodeURIComponent 会抛 URIError，应降级原样返回
+    document.cookie = 'legacy=100%'
+    const storage = new Storage('')
+    expect(storage.getCookie('legacy')).toBe('100%')
   })
 
   it('removeCookie 后应取不到值', () => {
@@ -230,12 +252,6 @@ describe('Storage - Cookie 操作', () => {
     storage.clearCookie()
     expect(storage.getCookie('a')).toBe('')
     expect(storage.getCookie('b')).toBe('')
-  })
-
-  it('cookie 值含中文与分号、等号时应原样往返', () => {
-    const storage = new Storage('')
-    storage.setCookie('t', 'a;b=c中文')
-    expect(storage.getCookie('t')).toBe('a;b=c中文')
   })
 
   it('带前缀的 clearCookie 不应波及其它命名空间的 cookie', () => {

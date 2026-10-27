@@ -109,8 +109,9 @@ export function isNull(val: unknown): val is null {
   return val === null
 }
 
+// 语义与 isNullOrUnDef 完全一致，委托调用以避免重复实现
 export function isNullAndUnDef(val: unknown): val is null | undefined {
-  return isUnDef(val) && isNull(val)
+  return isNullOrUnDef(val)
 }
 
 export function isNullOrUnDef(val: unknown): val is null | undefined {

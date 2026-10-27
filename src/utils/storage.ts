@@ -84,6 +84,8 @@ function isCacheRecord(data: unknown): data is CacheRecord {
 export class Storage {
   private storage?: StorageLike
   private prefixKey: string
+  /** 底层存储不可用的告警只打一次，避免每次读写都刷屏 */
+  private unavailableWarned = false
 
   constructor(prefixKey = '', storage?: StorageLike) {
     this.prefixKey = prefixKey
@@ -93,8 +95,24 @@ export class Storage {
   /** 惰性解析底层存储：模块加载期与 Node / SSR 环境下不访问 localStorage */
   private getStore(): StorageLike | null {
     if (this.storage) return this.storage
-    if (typeof localStorage === 'undefined') return null
-    this.storage = localStorage
+    try {
+      // 浏览器禁用 cookie / 隐私模式下，读取 localStorage 属性本身就会抛 SecurityError，
+      // 故「探测 + 取值」必须整体放进 try，失败时按「存储不可用」降级
+      if (typeof localStorage === 'undefined') {
+        if (!this.unavailableWarned) {
+          this.unavailableWarned = true
+          warn('当前环境无 localStorage，缓存读写已降级为无操作')
+        }
+        return null
+      }
+      this.storage = localStorage
+    } catch (error) {
+      if (!this.unavailableWarned) {
+        this.unavailableWarned = true
+        warn('localStorage 不可用，缓存读写已降级为无操作', error)
+      }
+      return null
+    }
     return this.storage
   }
 
