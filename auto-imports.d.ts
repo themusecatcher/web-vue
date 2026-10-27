@@ -154,6 +154,6 @@ declare global {
   export type { DownloadStrategy, DownloadOptions } from './src/utils/downloadFile'
   import('./src/utils/downloadFile')
   // @ts-ignore
-  export type { Storage } from './src/utils/storage'
+  export type { Storage, StorageLike, CookieOptions } from './src/utils/storage'
   import('./src/utils/storage')
 }
