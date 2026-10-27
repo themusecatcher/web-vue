@@ -11,7 +11,8 @@
  *    且与其它模块/其它项目的键名口径不一致；
  * 3. 所有底层调用都包 try/catch：隐私模式会抛 `SecurityError`、配额满会抛
  *    `QuotaExceededError`，缓存失败不应中断业务；
- * 4. `get` 遇到「非本工具写入的数据」只返回默认值、**绝不删除**；
+ * 4. `get` 遇到「结构不符的数据」只返回默认值、**绝不删除**（他人数据不能被我们误清）；
+ *    结构相符但 `expire` 非法的记录视为本地数据损坏，会被清理；
  * 5. `clear()` / `clearCookie()` 按实例前缀清理：带前缀的实例不会波及其它模块的数据；
  *    无前缀实例（含本文件的默认导出 `storage`）没有归属标识，等价于清空整个 localStorage /
  *    当前页面可见的全部 cookie —— 业务代码应 `new Storage('app:')` 自建带命名空间的实例。
@@ -124,7 +125,8 @@ export class Storage {
   /**
    * 设置缓存
    * @param {string} key 缓存键
-   * @param {unknown} value 缓存值；传 `undefined` 等价于删除该键（与 localStorage 原生语义一致）
+   * @param {unknown} value 缓存值；传 `undefined` 等价于删除该键（原生 `setItem` 会把它存成字符串
+   *                      `"undefined"`，故在此显式转为删除，避免读出脏值）
    * @param {number | null} [ttlSeconds=DEFAULT_TTL_SECONDS] 存活时长（秒），`null` 表示永不过期
    */
   set(key: string, value: unknown, ttlSeconds: number | null = DEFAULT_TTL_SECONDS): void {

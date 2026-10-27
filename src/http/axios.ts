@@ -6,7 +6,6 @@ import { isFunction } from 'utils/is'
 import { cloneDeep } from 'lodash-es'
 
 import type { RequestOptions, CreateAxiosOptions, Result, UploadFileParams } from './types'
-import { ContentTypeEnum } from '@/enums/httpEnum'
 
 export * from './axiosTransform'
 
@@ -34,6 +33,9 @@ export class VAxios {
     if (!this.axiosInstance) {
       return
     }
+    // 同步最新配置后重建实例：createAxios 内部会重新注册拦截器，
+    // 否则重建后的实例丢失全部请求/响应拦截器
+    this.options = config
     this.createAxios(config)
   }
 
@@ -52,6 +54,7 @@ export class VAxios {
    */
   private createAxios(config: CreateAxiosOptions): void {
     this.axiosInstance = axios.create(config)
+    this.setupInterceptors()
   }
 
   private getTransform() {
@@ -89,11 +92,15 @@ export class VAxios {
     return this.axiosInstance.request<T>({
       method: 'POST',
       data: formData,
+      ...config,
       headers: {
-        'Content-type': ContentTypeEnum.FORM_DATA,
-        ignoreCancelToken: true
-      },
-      ...config
+        // FormData 的 Content-Type 必须由浏览器自动生成（带 boundary）：
+        // createAxios 注入的默认头是 application/json，而 axios 1.x 的 transformRequest
+        // 命中 JSON 头时会把 FormData 序列化成 JSON（File/Blob 变成空对象，文件内容丢失）；
+        // 置为 false 可让 axios 删除该头，交由浏览器按 FormData 自动补齐 multipart + boundary
+        'Content-Type': false,
+        ...(config.headers as Recordable)
+      }
     })
   }
 

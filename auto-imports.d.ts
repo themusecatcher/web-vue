@@ -15,8 +15,6 @@ declare global {
   const createApp: typeof import('vue').createApp
   const createPinia: typeof import('pinia').createPinia
   const customRef: typeof import('vue').customRef
-  const debounce: typeof import('./src/utils/index').debounce
-  const deepMerge: typeof import('./src/utils/index').deepMerge
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
   const defineStore: typeof import('pinia').defineStore
@@ -116,8 +114,6 @@ declare global {
   const shallowRef: typeof import('vue').shallowRef
   const storage: typeof import('./src/utils/storage').default
   const storeToRefs: typeof import('pinia').storeToRefs
-  const throttle: typeof import('./src/utils/index').throttle
-  const toDouble: typeof import('./src/utils/dateUtils').toDouble
   const toRaw: typeof import('vue').toRaw
   const toRef: typeof import('vue').toRef
   const toRefs: typeof import('vue').toRefs

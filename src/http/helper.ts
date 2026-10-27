@@ -24,18 +24,14 @@ export function formatRequestDate(params: Recordable) {
   }
 
   for (const key in params) {
-    if (params[key] && params[key]._isAMomentObject) {
-      params[key] = params[key].format(DATE_TIME_FORMAT)
+    const current = params[key]
+    if (current?._isAMomentObject) {
+      params[key] = current.format(DATE_TIME_FORMAT)
     }
-    if (isString(key)) {
-      const value = params[key]
-      if (value) {
-        try {
-          params[key] = isString(value) ? value.trim() : value
-        } catch (error) {
-          throw new Error(error as any)
-        }
-      }
+    // 注意：此处需重新读取，moment 对象可能已在上面被格式化为字符串
+    const value = params[key]
+    if (isString(value)) {
+      params[key] = value.trim()
     }
     if (isObject(params[key])) {
       formatRequestDate(params[key])

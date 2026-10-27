@@ -27,19 +27,8 @@ export enum ContentTypeEnum {
   JSON = 'application/json;charset=UTF-8',
   // json
   TEXT = 'text/plain;charset=UTF-8',
-  // form-data 一般配合qs
+  // form-data 一般配合 qs
   FORM_URLENCODED = 'application/x-www-form-urlencoded;charset=UTF-8',
-  // form-data  上传
+  // form-data 上传
   FORM_DATA = 'multipart/form-data;charset=UTF-8'
-}
-/**
- * 请求header
- */
-export enum ConfigEnum {
-  // TOKEN
-  TOKEN = 'X-Access-Token',
-  // TIMESTAMP
-  TIMESTAMP = 'X-TIMESTAMP',
-  // Sign
-  Sign = 'X-Sign'
 }

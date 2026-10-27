@@ -1,5 +1,9 @@
-export function checkStatus(status: number, msg: string): void {
+export function checkStatus(status?: number, msg = ''): void {
   const $message = window.$message
+  // 无响应体（网络层错误，调用方已 console 提示）时直接跳过，避免弹出空 toast
+  if (status === undefined) {
+    return
+  }
   switch (status) {
     case 400:
       $message?.error(msg)
@@ -42,6 +46,7 @@ export function checkStatus(status: number, msg: string): void {
       $message?.error('http版本不支持该请求!')
       break
     default:
-      $message?.error(msg)
+      // 后端未返回 message 时兜底，避免弹出空白 toast
+      $message?.error(msg || '请求失败，请稍后重试!')
   }
 }
