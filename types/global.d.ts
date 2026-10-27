@@ -6,7 +6,7 @@ import type {
   FunctionalComponent,
   PropType as VuePropType
 } from 'vue'
-import type { MessageApi, ModalApi } from 'vue-amazing-ui'
+import type { MessageApi } from 'vue-amazing-ui'
 
 declare global {
   const __APP_INFO__: {
@@ -18,11 +18,11 @@ declare global {
     }
     lastBuildTime: string
   }
-  // vue-amazing-ui 命令式 api，由 App.vue 中 <MessageProvider> / <ModalProvider> 的 ready 事件挂载，
+  // vue-amazing-ui 命令式 api，由 App.vue 中 <MessageProvider> 的 ready 事件挂载，
   // 供 axios 拦截器等 setup 外的场景调用；应用卸载后移除，故为可选
+  // （Modal / Dialog / Notification / LoadingBar 目前无 setup 外调用方，需要时在组件内用各自的 useXxx()）
   interface Window {
     $message?: MessageApi
-    $modal?: ModalApi
   }
 
   // vue
